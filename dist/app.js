@@ -307,12 +307,12 @@ if (storyWall) {
     storyWall.classList.toggle('is-running', inView && !document.hidden);
     motion.hidden = expanded;
     motion.setAttribute('aria-pressed', String(paused));
-    const label = paused ? 'Retomar testemunhos ilustrativos' : 'Pausar testemunhos ilustrativos';
+    const label = paused ? 'Retomar testemunhos' : 'Pausar testemunhos';
     motion.setAttribute('aria-label', label);
     motion.title = label;
     motion.innerHTML = `<i data-lucide="${paused ? 'play' : 'pause'}" aria-hidden="true"></i>`;
     view.setAttribute('aria-expanded', String(expanded));
-    view.querySelector('span').textContent = expanded ? 'Voltar à apresentação' : 'Ver todos os exemplos';
+    view.querySelector('span').textContent = expanded ? 'Voltar à apresentação' : 'Ver todos os testemunhos';
     if (window.lucide) lucide.createIcons();
   }
 
