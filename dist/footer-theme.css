@@ -1,0 +1,62 @@
+.closing.closing-highlight{padding:76px 0;background-color:#a8e4bf}
+.closing.closing-highlight>.wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:32px}
+.closing.closing-highlight .eyebrow{justify-content:center;color:#355d45}
+.closing.closing-highlight h2{max-width:850px;font-size:48px;line-height:1.12;color:#173e2b}
+.closing.closing-highlight h2 em{color:#315e44}
+.closing.closing-highlight .closing-description{max-width:560px;margin-inline:auto}
+.closing.closing-highlight .closing-actions{justify-content:center}
+.closing.closing-highlight .closing-actions .button{border-radius:8px;min-height:56px}
+.closing.closing-highlight .closing-actions .button.dark{background:#183d2c;border:1px solid #183d2c;color:#f5fff8;box-shadow:0 6px 0 #183d2c1a}
+.closing.closing-highlight .closing-actions .button.dark:hover{background:#23533b;transform:translateY(-2px)}
+.closing.closing-highlight .closing-secondary{background:transparent;border-color:#436d514d}
+.template-footer{padding-top:0}
+.footer-signature{display:flex;justify-content:center;gap:30px;padding:56px 0 42px;border-bottom:1px solid #ffffff1f;color:#b3dec2;font-family:Lato,Arial,sans-serif;font-size:112px;font-weight:700;line-height:1.05}
+.footer-signature span:last-child{color:transparent;-webkit-text-stroke:1px #93bfa2}
+.template-footer .site-footer-grid{padding-top:48px;gap:36px}
+.template-footer .site-footer-bottom{margin-top:38px}
+@media(max-width:1100px){
+  .footer-signature{font-size:80px;gap:22px}
+}
+@media(max-width:760px){
+  .closing.closing-highlight{padding:52px 0}
+  .closing.closing-highlight h2{font-size:34px}
+  .closing.closing-highlight>.wrap{gap:26px}
+  .closing.closing-highlight .closing-actions{width:100%;max-width:420px}
+  .footer-signature{font-size:52px;gap:14px;flex-wrap:wrap;padding:38px 0 30px}
+  .template-footer .site-footer-grid{padding-top:30px;gap:28px 20px}
+}
+@media(max-width:420px){
+  .footer-signature{flex-direction:column;align-items:center;font-size:64px;gap:0}
+  .closing.closing-highlight h2{font-size:30px}
+}
+@media(prefers-reduced-motion:reduce){
+  .closing.closing-highlight .closing-actions .button.dark:hover{transform:none}
+}
+.faq{display:grid;grid-template-columns:minmax(0,1fr);max-width:940px;gap:42px;border-top:0}
+.faq>div:first-child{max-width:680px;margin-inline:auto;text-align:center}
+.faq h2{font-size:46px}
+.faq h2 em{color:#168057}
+.faq .eyebrow{justify-content:center}
+.faq .faq-list{max-width:760px;display:grid;gap:16px}
+.faq details{background:#173b2d repeating-linear-gradient(-45deg,transparent 0,transparent 40px,#ffffff04 40px,#ffffff04 41px);border:1px solid #466758;border-radius:8px;box-shadow:inset 0 1px 0 #ffffff20;overflow:hidden;transition:border-color .2s,background-color .2s}
+.faq details:hover,.faq details[open]{background-color:#204635;border-color:#78aa8a}
+.faq summary{color:#edf6ef;padding:23px 26px;gap:24px;font-size:17px;line-height:1.45;min-height:72px}
+.faq summary svg{color:#a4e6b8;width:22px;height:22px}
+.faq details p{color:#d0e1d4;margin:0;padding:0 26px 26px;font-size:16px;line-height:1.7}
+.faq details[open] p{animation:faq-answer-in .22s ease-out}
+@keyframes faq-answer-in{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:760px){
+  .faq{gap:30px}
+  .faq h2{font-size:34px}
+  .faq .faq-list{gap:12px}
+  .faq summary{padding:20px;gap:16px;font-size:16px}
+  .faq details p{padding:0 20px 22px;font-size:15px}
+}
+@media(max-width:400px){
+  .faq h2{font-size:30px}
+  .faq summary{padding:18px 16px}
+  .faq details p{padding:0 16px 20px}
+}
+@media(prefers-reduced-motion:reduce){
+  .faq details,.faq details[open] p{animation:none;transition:none}
+}

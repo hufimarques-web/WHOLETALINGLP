@@ -4,7 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#194b3d">
 <title>Venda do seu imóvel | Dê o primeiro passo em 2 minutos</title>
 <meta name="description" content="O valor que pede pode estar a adiar os seus planos. Explore uma proposta pelo seu imóvel no estado atual, em Aveiro e na região Centro.">
-<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="business-theme.css?v=20261006-mobile"><link rel="stylesheet" href="visual-theme.css?v=9"><link rel="stylesheet" href="recognition-theme.css?v=4"><link rel="stylesheet" href="hero-form.css?v=2"><script src="lucide.min.js" defer></script><script src="app.js?v=20261006-hero-form" defer></script>
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="business-theme.css?v=20261006-mobile"><link rel="stylesheet" href="visual-theme.css?v=9"><link rel="stylesheet" href="recognition-theme.css?v=4"><link rel="stylesheet" href="hero-form.css?v=2"><link rel="stylesheet" href="testimonials.css?v=1"><link rel="stylesheet" href="footer-theme.css?v=1"><script src="lucide.min.js" defer></script><script src="app.js?v=20261006-testimonial-wall" defer></script>
 </head>
 <body>
 <a class="skip" href="#conteudo">Saltar para o conteúdo</a>
@@ -96,43 +96,57 @@
       <h2 id="testimonials-title">Diferentes motivos.<br>Uma vontade de avançar.</h2>
       <p>Exemplos fictícios, não são avaliações de clientes. Os prazos ilustrados não são garantias de resultados.</p>
     </div>
-    <div class="testimonials-carousel" role="region" aria-roledescription="carrossel" aria-label="Situações ilustrativas">
-      <button class="carousel-arrow carousel-prev" type="button" aria-label="Exemplos anteriores" title="Exemplos anteriores" aria-controls="testimonial-panels" disabled><i data-lucide="chevron-left" aria-hidden="true"></i></button>
-      <div class="testimonial-panels" id="testimonial-panels">
-        <article class="testimonial-panel" aria-label="Exemplo 1 de 5">
-          <i class="testimonial-quote" data-lucide="quote" aria-hidden="true"></i>
-          <blockquote>Foram oito meses a deixar a casa pronta para visitas e a ouvir ‘depois entramos em contacto’. Preenchi o formulário em dois minutos. Três dias depois, já tinha uma proposta para analisar. Ainda precisava de refletir, mas finalmente tinha algo concreto em mãos.</blockquote>
-          <p class="testimonial-disclosure">Exemplo fictício</p>
-          <div class="testimonial-author"><span class="testimonial-symbol"><i data-lucide="house" aria-hidden="true"></i></span><div><h3>Meses de espera</h3><p>Situação ilustrativa, não é um cliente real.</p></div></div>
-        </article>
-        <article class="testimonial-panel" aria-label="Exemplo 2 de 5">
-          <i class="testimonial-quote" data-lucide="quote" aria-hidden="true"></i>
-          <blockquote>Durante quase dois anos, qualquer conversa sobre a casa acabava em discussão entre irmãos. Na primeira semana, conseguimos entender melhor as condições de uma possível venda. Não resolveu tudo de imediato, mas deu-nos finalmente uma base para avançar.</blockquote>
-          <p class="testimonial-disclosure">Exemplo fictício</p>
-          <div class="testimonial-author"><span class="testimonial-symbol"><i data-lucide="house" aria-hidden="true"></i></span><div><h3>Casa herdada</h3><p>Situação ilustrativa, não é um cliente real.</p></div></div>
-        </article>
-        <article class="testimonial-panel" hidden aria-label="Exemplo 3 de 5">
-          <i class="testimonial-quote" data-lucide="quote" aria-hidden="true"></i>
-          <blockquote>Adiei a venda durante seis meses porque pensava que teria de renovar primeiro. Em quatro dias, recebi uma proposta pelo imóvel no estado em que estava. O maior alívio foi perceber que não precisava de me meter noutra obra.</blockquote>
-          <p class="testimonial-disclosure">Exemplo fictício</p>
-          <div class="testimonial-author"><span class="testimonial-symbol"><i data-lucide="house" aria-hidden="true"></i></span><div><h3>Obras que não queria assumir</h3><p>Situação ilustrativa, não é um cliente real.</p></div></div>
-        </article>
-        <article class="testimonial-panel" hidden aria-label="Exemplo 4 de 5">
-          <i class="testimonial-quote" data-lucide="quote" aria-hidden="true"></i>
-          <blockquote>Já tinha adiado a mudança duas vezes. Passadas cinco semanas, a escritura ficou concluída. Nessa noite, voltei a procurar casa na cidade onde queria viver. Desta vez, já não estava apenas a imaginar.</blockquote>
-          <p class="testimonial-disclosure">Exemplo fictício</p>
-          <div class="testimonial-author"><span class="testimonial-symbol"><i data-lucide="house" aria-hidden="true"></i></span><div><h3>Voltar aos planos</h3><p>Situação ilustrativa, não é um cliente real.</p></div></div>
-        </article>
-        <article class="testimonial-panel" hidden aria-label="Exemplo 5 de 5">
-          <i class="testimonial-quote" data-lucide="quote" aria-hidden="true"></i>
-          <blockquote>Em 48 horas, explicaram-me o que podia ser feito e o que ainda precisava de confirmação. A proposta não foi o valor que tinha em mente, mas consegui fazer as contas com tranquilidade. Pela primeira vez em meses, senti que estava a tomar uma decisão em vez de continuar à espera.</blockquote>
-          <p class="testimonial-disclosure">Exemplo fictício</p>
-          <div class="testimonial-author"><span class="testimonial-symbol"><i data-lucide="house" aria-hidden="true"></i></span><div><h3>Clareza sem pressão</h3><p>Situação ilustrativa, não é um cliente real.</p></div></div>
-        </article>
-      </div>
-      <button class="carousel-arrow carousel-next" type="button" aria-label="Próximos exemplos" title="Próximos exemplos" aria-controls="testimonial-panels"><i data-lucide="chevron-right" aria-hidden="true"></i></button>
+    <div class="story-controls" hidden>
+      <button class="story-motion" type="button" aria-label="Pausar testemunhos ilustrativos" title="Pausar testemunhos ilustrativos" aria-pressed="false"><i data-lucide="pause" aria-hidden="true"></i></button>
+      <button class="story-view" type="button" aria-expanded="false" aria-controls="story-wall"><i data-lucide="layout-grid" aria-hidden="true"></i><span>Ver todos os exemplos</span></button>
     </div>
-    <p class="carousel-status" aria-live="polite" aria-atomic="true">1–2 / 5</p>
+    <div class="story-wall" id="story-wall" role="region" aria-label="Testemunhos fictícios para demonstração">
+        <article class="story-card" aria-label="Exemplo fictício 1 de 9">
+          <p class="story-disclosure">Exemplo fictício</p>
+          <blockquote>Foram oito meses a deixar a casa pronta para visitas e a ouvir ‘depois entramos em contacto’. Preenchi o formulário em dois minutos. Três dias depois, já tinha uma proposta para analisar. Ainda precisava de refletir, mas finalmente tinha algo concreto em mãos.</blockquote>
+          <div class="story-profile"><span class="story-avatar avatar-0" aria-hidden="true">AM</span><div><h3>Ana M.</h3><p>Perfil fictício · Meses de espera</p></div></div>
+        </article>
+        <article class="story-card" aria-label="Exemplo fictício 2 de 9">
+          <p class="story-disclosure">Exemplo fictício</p>
+          <blockquote>Durante quase dois anos, qualquer conversa sobre a casa acabava em discussão entre irmãos. Na primeira semana, conseguimos entender melhor as condições de uma possível venda. Não resolveu tudo de imediato, mas deu-nos finalmente uma base para avançar.</blockquote>
+          <div class="story-profile"><span class="story-avatar avatar-1" aria-hidden="true">MR</span><div><h3>Miguel R.</h3><p>Perfil fictício · Casa herdada</p></div></div>
+        </article>
+        <article class="story-card" aria-label="Exemplo fictício 3 de 9">
+          <p class="story-disclosure">Exemplo fictício</p>
+          <blockquote>Adiei a venda durante seis meses porque pensava que teria de renovar primeiro. Em quatro dias, recebi uma proposta pelo imóvel no estado em que estava. O maior alívio foi perceber que não precisava de me meter noutra obra.</blockquote>
+          <div class="story-profile"><span class="story-avatar avatar-2" aria-hidden="true">CS</span><div><h3>Carla S.</h3><p>Perfil fictício · Obras que não queria assumir</p></div></div>
+        </article>
+        <article class="story-card" aria-label="Exemplo fictício 4 de 9">
+          <p class="story-disclosure">Exemplo fictício</p>
+          <blockquote>Já tinha adiado a mudança duas vezes. Passadas cinco semanas, a escritura ficou concluída. Nessa noite, voltei a procurar casa na cidade onde queria viver. Desta vez, já não estava apenas a imaginar.</blockquote>
+          <div class="story-profile"><span class="story-avatar avatar-0" aria-hidden="true">PA</span><div><h3>Pedro A.</h3><p>Perfil fictício · Voltar aos planos</p></div></div>
+        </article>
+        <article class="story-card" aria-label="Exemplo fictício 5 de 9">
+          <p class="story-disclosure">Exemplo fictício</p>
+          <blockquote>Em 48 horas, explicaram-me o que podia ser feito e o que ainda precisava de confirmação. A proposta não foi o valor que tinha em mente, mas consegui fazer as contas com tranquilidade. Pela primeira vez em meses, senti que estava a tomar uma decisão em vez de continuar à espera.</blockquote>
+          <div class="story-profile"><span class="story-avatar avatar-1" aria-hidden="true">SL</span><div><h3>Sofia L.</h3><p>Perfil fictício · Clareza sem pressão</p></div></div>
+        </article>
+        <article class="story-card" aria-label="Exemplo fictício 6 de 9">
+          <p class="story-disclosure">Exemplo fictício</p>
+          <blockquote>Passei um ano a pagar despesas de uma casa onde já não vivia. Em três dias, percebi que condições precisava de considerar. Não era a solução que tinha imaginado, mas finalmente consegui fazer um plano.</blockquote>
+          <div class="story-profile"><span class="story-avatar avatar-2" aria-hidden="true">TF</span><div><h3>Teresa F.</h3><p>Perfil fictício · Uma casa fechada</p></div></div>
+        </article>
+        <article class="story-card" aria-label="Exemplo fictício 7 de 9">
+          <p class="story-disclosure">Exemplo fictício</p>
+          <blockquote>Vivo longe e cada visita obrigava-me a reorganizar a semana. Na primeira conversa, ficou claro que fotografias e documentos faltavam. Em cinco dias, deixei de sentir que estava a tratar de tudo às cegas.</blockquote>
+          <div class="story-profile"><span class="story-avatar avatar-0" aria-hidden="true">JP</span><div><h3>João P.</h3><p>Perfil fictício · Vender à distância</p></div></div>
+        </article>
+        <article class="story-card" aria-label="Exemplo fictício 8 de 9">
+          <p class="story-disclosure">Exemplo fictício</p>
+          <blockquote>O terreno estava parado há anos e o projeto já não fazia sentido para nós. Ao fim de uma semana, tínhamos uma proposta para discutir. Foi um alívio voltar a falar do futuro, em vez do que ficou por fazer.</blockquote>
+          <div class="story-profile"><span class="story-avatar avatar-1" aria-hidden="true">RC</span><div><h3>Rita C.</h3><p>Perfil fictício · Outros planos</p></div></div>
+        </article>
+        <article class="story-card" aria-label="Exemplo fictício 9 de 9">
+          <p class="story-disclosure">Exemplo fictício</p>
+          <blockquote>Tinha receio de aceitar um valor só para despachar o assunto. Em 48 horas, consegui perceber as condições e as dúvidas que faltava esclarecer. Pude pensar com calma, sem sentir que precisava de responder naquele momento.</blockquote>
+          <div class="story-profile"><span class="story-avatar avatar-2" aria-hidden="true">LV</span><div><h3>Luís V.</h3><p>Perfil fictício · Decidir com calma</p></div></div>
+        </article>
+    </div>
   </div>
 </section>
 
@@ -164,7 +178,8 @@
 </div></section>
 <section class="closing closing-highlight"><div class="wrap"><div><p class="eyebrow">O PRÓXIMO PASSO NÃO É UMA PROMESSA.</p><h2>É uma conversa <em>com os pés na terra.</em></h2><p class="closing-description">Apresente o imóvel como está. Sem obras prévias e sem obrigação de vender.</p></div><div class="closing-actions"><a class="button dark" href="#pedido">Apresentar o meu imóvel <i data-lucide="arrow-up-right" aria-hidden="true"></i></a><a class="button closing-secondary" href="#etapas">Como funciona <i data-lucide="arrow-right" aria-hidden="true"></i></a></div></div></section>
 </main>
-<footer class="site-footer"><div class="wrap">
+<footer class="site-footer template-footer"><div class="wrap">
+  <div class="footer-signature" aria-hidden="true"><span>Venda de</span> <span>imóveis.</span></div>
   <div class="site-footer-grid">
     <div class="footer-about"><a class="footer-brand" href="#inicio"><span class="footer-brand-icon"><i data-lucide="house" aria-hidden="true"></i></span><span>Venda de imóveis<small>AVEIRO & REGIÃO CENTRO</small></span></a><p>Um primeiro passo para explorar a venda do seu imóvel, no estado em que está.</p><span class="footer-assurance"><i data-lucide="handshake" aria-hidden="true"></i> A decisão é sempre sua.</span></div>
     <div class="footer-column"><h3>Onde analisamos</h3><ul class="footer-regions"><li><i data-lucide="map-pin" aria-hidden="true"></i> Aveiro</li><li><i data-lucide="map-pin" aria-hidden="true"></i> Viseu</li><li><i data-lucide="map-pin" aria-hidden="true"></i> Coimbra</li></ul><p>Imóveis na região Centro.</p></div>

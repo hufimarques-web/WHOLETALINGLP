@@ -260,38 +260,76 @@ if (scenarioSection && scenarioMotion) {
     scenarioTabs[scenarioIndex].querySelector('.recognition-progress > span').style.transform = `scaleX(${scenarioElapsed / 7000})`;
   }, 80);
 }
-const carousel = document.querySelector('.testimonials-carousel');
-if (carousel) {
-  const panels = [...carousel.querySelectorAll('.testimonial-panel')];
-  const previous = carousel.querySelector('.carousel-prev');
-  const following = carousel.querySelector('.carousel-next');
-  const status = document.querySelector('.carousel-status');
-  const mobile = window.matchMedia('(max-width: 760px)');
-  let first = 0;
-  function showTestimonials() {
-    const visible = mobile.matches ? 1 : 2;
-    first = Math.max(0, Math.min(first, panels.length - visible));
-    panels.forEach((panel, index) => { panel.hidden = index < first || index >= first + visible; });
-    previous.disabled = first === 0;
-    following.disabled = first + visible >= panels.length;
-    status.textContent = visible === 1
-      ? `${first + 1} / ${panels.length}`
-      : `${first + 1}\u2013${Math.min(first + visible, panels.length)} / ${panels.length}`;
+const storyWall = document.getElementById('story-wall');
+if (storyWall) {
+  const cards = [...storyWall.querySelectorAll('.story-card')];
+  const controls = document.querySelector('.story-controls');
+  const motion = controls.querySelector('.story-motion');
+  const view = controls.querySelector('.story-view');
+  const compact = window.matchMedia('(max-width: 600px)');
+  const tablet = window.matchMedia('(max-width: 1000px)');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let paused = reduced.matches;
+  let expanded = reduced.matches;
+  let inView = false;
+
+  function updateStories() {
+    controls.hidden = reduced.matches;
+    storyWall.classList.toggle('is-paused', paused);
+    storyWall.classList.toggle('is-expanded', expanded);
+    storyWall.classList.toggle('is-running', inView && !document.hidden);
+    motion.hidden = expanded;
+    motion.setAttribute('aria-pressed', String(paused));
+    const label = paused ? 'Retomar testemunhos ilustrativos' : 'Pausar testemunhos ilustrativos';
+    motion.setAttribute('aria-label', label);
+    motion.title = label;
+    motion.innerHTML = `<i data-lucide="${paused ? 'play' : 'pause'}" aria-hidden="true"></i>`;
+    view.setAttribute('aria-expanded', String(expanded));
+    view.querySelector('span').textContent = expanded ? 'Voltar à apresentação' : 'Ver todos os exemplos';
+    if (window.lucide) lucide.createIcons();
   }
-  previous.addEventListener('click', () => { first--; showTestimonials(); });
-  following.addEventListener('click', () => { first++; showTestimonials(); });
-  carousel.addEventListener('keydown', event => {
-    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-    event.preventDefault();
-    if (event.key === 'ArrowLeft') first--;
-    if (event.key === 'ArrowRight') first++;
-    if (event.key === 'Home') first = 0;
-    if (event.key === 'End') first = panels.length;
-    showTestimonials();
-    if (document.activeElement.disabled) (following.disabled ? previous : following).focus();
+
+  function buildStoryLanes() {
+    const count = compact.matches ? 1 : tablet.matches ? 2 : 3;
+    const lanes = Array.from({ length: count }, () => {
+      const lane = document.createElement('div');
+      lane.className = 'story-lane';
+      const track = document.createElement('div');
+      track.className = 'story-track';
+      const group = document.createElement('div');
+      group.className = 'story-group';
+      track.append(group);
+      lane.append(track);
+      return { lane, track, group };
+    });
+    // Move the originals; only visual loop copies are hidden from assistive technology.
+    cards.forEach((card, index) => lanes[index % count].group.append(card));
+    lanes.forEach(({ track, group }) => {
+      const copy = group.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      copy.inert = true;
+      track.append(copy);
+      track.style.setProperty('--story-duration', `${group.children.length * 24}s`);
+    });
+    storyWall.replaceChildren(...lanes.map(({ lane }) => lane));
+    storyWall.classList.add('is-ready');
+    updateStories();
+  }
+
+  motion.addEventListener('click', () => { paused = !paused; updateStories(); });
+  view.addEventListener('click', () => { expanded = !expanded; updateStories(); });
+  compact.addEventListener('change', buildStoryLanes);
+  tablet.addEventListener('change', buildStoryLanes);
+  reduced.addEventListener('change', () => {
+    if (reduced.matches) { paused = true; expanded = true; }
+    updateStories();
   });
-  mobile.addEventListener('change', showTestimonials);
-  showTestimonials();
+  document.addEventListener('visibilitychange', updateStories);
+  new IntersectionObserver(([entry]) => {
+    inView = entry.isIntersecting;
+    updateStories();
+  }, { threshold: 0.05 }).observe(storyWall);
+  buildStoryLanes();
 }
 const benefitTicker = document.querySelector('.benefit-ticker');
 if (benefitTicker) {
