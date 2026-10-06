@@ -38,11 +38,14 @@
 .faq h2 em{color:#168057}
 .faq .eyebrow{justify-content:center}
 .faq .faq-list{max-width:760px;display:grid;gap:16px}
-.faq details{background:#173b2d repeating-linear-gradient(-45deg,transparent 0,transparent 40px,#ffffff04 40px,#ffffff04 41px);border:1px solid #466758;border-radius:8px;box-shadow:inset 0 1px 0 #ffffff20;overflow:hidden;transition:border-color .2s,background-color .2s}
-.faq details:hover,.faq details[open]{background-color:#204635;border-color:#78aa8a}
-.faq summary{color:#edf6ef;padding:23px 26px;gap:24px;font-size:17px;line-height:1.45;min-height:72px}
-.faq summary svg{color:#a4e6b8;width:22px;height:22px}
-.faq details p{color:#d0e1d4;margin:0;padding:0 26px 26px;font-size:16px;line-height:1.7}
+.faq details{background:repeating-linear-gradient(-45deg,transparent 0,transparent 40px,#ffffff03 40px,#ffffff03 41px) padding-box,linear-gradient(180deg,#304c41 0%,#1a3026 35%,#0c1b14 100%) padding-box,linear-gradient(180deg,#8eae9e99,#58736155 55%,#44665099) border-box;border:1px solid transparent;border-radius:8px;box-shadow:inset 0 3px 0 #d0f5df17,0 8px 20px #0b281214;overflow:hidden;transition:box-shadow .25s,transform .25s}
+.faq details:hover,.faq details[open]{box-shadow:inset 0 3px 0 #c0efd432,0 10px 28px #0b281226}
+.faq summary{color:#f1f6f3;padding:25px 28px;gap:24px;font-size:17px;line-height:1.45;min-height:80px}
+.faq summary svg{color:#ecb17f;width:24px;height:24px;stroke-width:1.8;transform:rotate(0deg);transform-origin:center;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.faq details[open] summary svg{transform:rotate(180deg)}
+.faq summary svg path:last-child{opacity:1;transition:opacity .2s ease}
+.faq details[open] summary svg path:last-child{opacity:0}
+.faq details p{color:#d0e1d4;margin:0;padding:0 28px 28px;font-size:16px;line-height:1.7}
 .faq details[open] p{animation:faq-answer-in .22s ease-out}
 @keyframes faq-answer-in{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:760px){
@@ -58,5 +61,5 @@
   .faq details p{padding:0 16px 20px}
 }
 @media(prefers-reduced-motion:reduce){
-  .faq details,.faq details[open] p{animation:none;transition:none}
+  .faq details,.faq details[open] p,.faq summary svg,.faq summary svg path{animation:none;transition:none}
 }
