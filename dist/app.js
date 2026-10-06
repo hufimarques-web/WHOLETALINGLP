@@ -180,6 +180,7 @@ if (storyTabs.length > 0) {
 }
 const scenarioTabs = [...document.querySelectorAll('.scenario-tabs [role="tab"]')];
 function selectScenario(index, focus = false) {
+  scenarioTabs[index].parentElement.style.setProperty('--scenario-index', index);
   scenarioTabs.forEach((tab, current) => {
     const selected = current === index;
     tab.setAttribute('aria-selected', String(selected));
