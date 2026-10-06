@@ -178,30 +178,86 @@ if (storyTabs.length > 0) {
     });
   });
 }
-const scenarioTabs = [...document.querySelectorAll('.scenario-tabs [role="tab"]')];
+const scenarioSection = document.querySelector('.recognition-process');
+const scenarioTabs = [...document.querySelectorAll('.recognition-tabs [role="tab"]')];
+const scenarioMotion = scenarioSection?.querySelector('.recognition-motion');
+const scenarioReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+let scenarioIndex = 0;
+let scenarioElapsed = 0;
+let scenarioPaused = scenarioReducedMotion.matches;
+let scenarioInView = false;
+let scenarioHovered = false;
+let scenarioLastTick = performance.now();
+function updateScenarioMotion() {
+  if (!scenarioMotion) return;
+  const label = scenarioPaused ? 'Retomar apresentação' : 'Pausar apresentação';
+  scenarioMotion.setAttribute('aria-label', label);
+  scenarioMotion.setAttribute('aria-pressed', String(scenarioPaused));
+  scenarioMotion.title = label;
+  scenarioMotion.innerHTML = `<i data-lucide="${scenarioPaused ? 'play' : 'pause'}" aria-hidden="true"></i>`;
+  lucide.createIcons();
+}
 function selectScenario(index, focus = false) {
-  scenarioTabs[index].parentElement.style.setProperty('--scenario-index', index);
+  scenarioIndex = index;
+  scenarioElapsed = 0;
   scenarioTabs.forEach((tab, current) => {
     const selected = current === index;
     tab.setAttribute('aria-selected', String(selected));
     tab.tabIndex = selected ? 0 : -1;
+    tab.querySelector('.recognition-progress > span').style.transform = 'scaleX(0)';
     document.getElementById(tab.getAttribute('aria-controls')).hidden = !selected;
   });
+  scenarioSection.querySelector('.recognition-window-count').textContent = `0${index + 1} / 03`;
   if (focus) scenarioTabs[index].focus({ preventScroll: true });
 }
+function selectScenarioManually(index, focus = false) {
+  scenarioPaused = true;
+  selectScenario(index, focus);
+  updateScenarioMotion();
+}
 scenarioTabs.forEach((tab, index) => {
-  tab.addEventListener('click', () => selectScenario(index));
+  tab.addEventListener('click', () => selectScenarioManually(index));
   tab.addEventListener('keydown', event => {
     let target;
-    if (event.key === 'ArrowRight') target = (index + 1) % scenarioTabs.length;
-    if (event.key === 'ArrowLeft') target = (index - 1 + scenarioTabs.length) % scenarioTabs.length;
+    if (['ArrowRight', 'ArrowDown'].includes(event.key)) target = (index + 1) % scenarioTabs.length;
+    if (['ArrowLeft', 'ArrowUp'].includes(event.key)) target = (index - 1 + scenarioTabs.length) % scenarioTabs.length;
     if (event.key === 'Home') target = 0;
     if (event.key === 'End') target = scenarioTabs.length - 1;
     if (target === undefined) return;
     event.preventDefault();
-    selectScenario(target, true);
+    selectScenarioManually(target, true);
   });
 });
+if (scenarioSection && scenarioMotion) {
+  scenarioMotion.hidden = false;
+  updateScenarioMotion();
+  scenarioMotion.addEventListener('click', () => {
+    scenarioPaused = !scenarioPaused;
+    updateScenarioMotion();
+  });
+  scenarioSection.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') scenarioHovered = true; });
+  scenarioSection.addEventListener('pointerleave', () => { scenarioHovered = false; });
+  scenarioSection.addEventListener('focusin', event => {
+    if (!scenarioMotion.contains(event.target)) {
+      scenarioPaused = true;
+      updateScenarioMotion();
+    }
+  });
+  scenarioReducedMotion.addEventListener('change', event => {
+    if (event.matches) { scenarioPaused = true; updateScenarioMotion(); }
+  });
+  new IntersectionObserver(([entry]) => { scenarioInView = entry.isIntersecting; }, { threshold: 0.12 }).observe(scenarioSection);
+  // Count only visible, uninterrupted reading time before advancing.
+  setInterval(() => {
+    const now = performance.now();
+    const delta = Math.min(now - scenarioLastTick, 200);
+    scenarioLastTick = now;
+    if (!scenarioInView || scenarioPaused || scenarioHovered || document.hidden) return;
+    scenarioElapsed += delta;
+    if (scenarioElapsed >= 7000) selectScenario((scenarioIndex + 1) % scenarioTabs.length);
+    scenarioTabs[scenarioIndex].querySelector('.recognition-progress > span').style.transform = `scaleX(${scenarioElapsed / 7000})`;
+  }, 80);
+}
 const carousel = document.querySelector('.testimonials-carousel');
 if (carousel) {
   const panels = [...carousel.querySelectorAll('.testimonial-panel')];

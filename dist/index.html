@@ -4,7 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#194b3d">
 <title>Venda do seu imóvel | Dê o primeiro passo em 2 minutos</title>
 <meta name="description" content="O valor que pede pode estar a adiar os seus planos. Explore uma proposta pelo seu imóvel no estado atual, em Aveiro e na região Centro.">
-<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="business-theme.css?v=20261006-mobile"><link rel="stylesheet" href="visual-theme.css?v=9"><script src="lucide.min.js" defer></script><script src="app.js?v=20261006-tabs" defer></script>
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="business-theme.css?v=20261006-mobile"><link rel="stylesheet" href="visual-theme.css?v=9"><link rel="stylesheet" href="recognition-theme.css?v=1"><script src="lucide.min.js" defer></script><script src="app.js?v=20261006-process" defer></script>
 </head>
 <body>
 <a class="skip" href="#conteudo">Saltar para o conteúdo</a>
@@ -33,18 +33,24 @@
   <button class="benefit-ticker-toggle" type="button" aria-label="Pausar movimento" title="Pausar movimento" aria-pressed="false" hidden><i data-lucide="pause" aria-hidden="true"></i></button>
 </section>
 
-<section class="recognition section-space" id="situacoes" aria-labelledby="recognition-title">
+<section class="recognition-process" id="situacoes" aria-labelledby="recognition-title">
   <div class="wrap">
-    <div class="recognition-heading"><div><p class="eyebrow">NÃO É SÓ UMA CASA QUE ESTÁ EM CAUSA.</p><h2 id="recognition-title">É o que ficou em espera<br><em>enquanto tenta vendê-la.</em></h2></div><p class="illustration-label"><i data-lucide="book-open" aria-hidden="true"></i><span>Situações ilustrativas.<br>Não são testemunhos de clientes.</span></p></div>
-    <div class="scenario-tabs" role="tablist" aria-label="Situações de venda">
-      <button type="button" role="tab" id="scenario-tab-0" aria-controls="scenario-panel-0" aria-selected="true" tabindex="0"><i data-lucide="key-round" aria-hidden="true"></i> UMA CASA HERDADA</button>
-      <button type="button" role="tab" id="scenario-tab-1" aria-controls="scenario-panel-1" aria-selected="false" tabindex="-1"><i data-lucide="paint-roller" aria-hidden="true"></i> OBRAS SEMPRE ADIADAS</button>
-      <button type="button" role="tab" id="scenario-tab-2" aria-controls="scenario-panel-2" aria-selected="false" tabindex="-1"><i data-lucide="land-plot" aria-hidden="true"></i> UM PLANO QUE MUDOU</button>
-    </div>
-    <div class="scenario-grid">
-      <article class="scenario scenario-heritage" id="scenario-panel-0" role="tabpanel" aria-labelledby="scenario-tab-0" tabindex="0"><img class="scenario-photo" src="casa-tradicional.jpg" alt="Casa tradicional em pedra com janela de madeira e telhado envelhecido" width="1400" height="2100" loading="lazy" decoding="async"><div class="scenario-body"><h3>Herdou a casa.<br>Não herdou tempo.</h3><p>A casa fica longe. As obras e as visitas vão ficando para depois.</p></div></article>
-      <article class="scenario scenario-listing" id="scenario-panel-1" role="tabpanel" aria-labelledby="scenario-tab-1" tabindex="0" hidden><img class="scenario-photo" src="renovacao-interior.jpg" alt="Interior em renovação com paredes por concluir, ferramentas e materiais de construção" width="1400" height="933" loading="lazy" decoding="async"><div class="scenario-body"><h3>Quer vender.<br>Não quer renovar.</h3><p>Orçamentos, materiais e mais decisões. Talvez não queira assumir esse projeto.</p><p class="scenario-turn"><strong>Mostre-nos o imóvel exatamente como está.</strong></p></div></article>
-      <article class="scenario scenario-project" id="scenario-panel-2" role="tabpanel" aria-labelledby="scenario-tab-2" tabindex="0" hidden><img class="scenario-photo" src="terreno-portugal.jpg" alt="Terreno rural em Portugal com vegetação baixa e árvores ao fundo" width="1400" height="933" loading="lazy" decoding="async"><div class="scenario-body"><h3>O terreno ficou.<br>Os planos mudaram.</h3><p>A construção foi adiada. Hoje, talvez o seu dinheiro faça mais sentido noutro lugar.</p><p class="scenario-turn"><strong>Comece por perceber se existe espaço para negociar.</strong></p></div></article>
+    <div class="recognition-process-heading"><p class="eyebrow">NÃO É SÓ UMA CASA QUE ESTÁ EM CAUSA.</p><h2 id="recognition-title">É o que ficou em espera<br><em>enquanto tenta vendê-la.</em></h2></div>
+    <div class="recognition-process-layout">
+      <div class="recognition-tabs" role="tablist" aria-label="Situações de venda" aria-orientation="vertical">
+        <button type="button" role="tab" id="scenario-tab-0" aria-controls="scenario-panel-0" aria-labelledby="scenario-label-0" aria-selected="true" tabindex="0"><span class="recognition-numeral" aria-hidden="true">I</span><span class="recognition-step-copy"><span class="recognition-step-label" id="scenario-label-0">UMA CASA HERDADA</span><span class="recognition-step-title">Herdou a casa.<br>Não herdou tempo.</span><span class="recognition-step-description">A casa fica longe. As obras e as visitas vão ficando para depois.</span><span class="recognition-progress" aria-hidden="true"><span></span></span></span></button>
+        <button type="button" role="tab" id="scenario-tab-1" aria-controls="scenario-panel-1" aria-labelledby="scenario-label-1" aria-selected="false" tabindex="-1"><span class="recognition-numeral" aria-hidden="true">II</span><span class="recognition-step-copy"><span class="recognition-step-label" id="scenario-label-1">OBRAS SEMPRE ADIADAS</span><span class="recognition-step-title">Quer vender.<br>Não quer renovar.</span><span class="recognition-step-description">Orçamentos, materiais e mais decisões. Talvez não queira assumir esse projeto.</span><span class="recognition-step-note">Mostre-nos o imóvel exatamente como está.</span><span class="recognition-progress" aria-hidden="true"><span></span></span></span></button>
+        <button type="button" role="tab" id="scenario-tab-2" aria-controls="scenario-panel-2" aria-labelledby="scenario-label-2" aria-selected="false" tabindex="-1"><span class="recognition-numeral" aria-hidden="true">III</span><span class="recognition-step-copy"><span class="recognition-step-label" id="scenario-label-2">UM PLANO QUE MUDOU</span><span class="recognition-step-title">O terreno ficou.<br>Os planos mudaram.</span><span class="recognition-step-description">A construção foi adiada. Hoje, talvez o seu dinheiro faça mais sentido noutro lugar.</span><span class="recognition-step-note">Comece por perceber se existe espaço para negociar.</span><span class="recognition-progress" aria-hidden="true"><span></span></span></span></button>
+      </div>
+      <div class="recognition-window">
+        <div class="recognition-window-toolbar"><div class="recognition-window-dots" aria-hidden="true"><span></span><span></span><span></span></div><span class="recognition-window-count" aria-hidden="true">01 / 03</span><button class="recognition-motion" type="button" aria-label="Pausar apresentação" title="Pausar apresentação" aria-pressed="false" hidden><i data-lucide="pause" aria-hidden="true"></i></button></div>
+        <div class="recognition-panels">
+          <article class="recognition-panel" id="scenario-panel-0" role="tabpanel" aria-labelledby="scenario-tab-0" tabindex="0"><img src="casa-tradicional.jpg" alt="Casa tradicional em pedra com janela de madeira e telhado envelhecido" width="1400" height="2100" loading="lazy" decoding="async"></article>
+          <article class="recognition-panel" id="scenario-panel-1" role="tabpanel" aria-labelledby="scenario-tab-1" tabindex="0" hidden><img src="renovacao-interior.jpg" alt="Interior em renovação com paredes por concluir, ferramentas e materiais de construção" width="1400" height="933" loading="lazy" decoding="async"></article>
+          <article class="recognition-panel" id="scenario-panel-2" role="tabpanel" aria-labelledby="scenario-tab-2" tabindex="0" hidden><img src="terreno-portugal.jpg" alt="Terreno rural em Portugal com vegetação baixa e árvores ao fundo" width="1400" height="933" loading="lazy" decoding="async"></article>
+        </div>
+        <p class="recognition-window-caption"><i data-lucide="book-open" aria-hidden="true"></i><span>Situações ilustrativas.<br>Não são testemunhos de clientes.</span></p>
+      </div>
     </div>
   </div>
 </section>
