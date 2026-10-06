@@ -146,27 +146,36 @@ privacy.addEventListener('click', event => {
   const bounds = privacy.getBoundingClientRect();
   if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) privacy.close();
 });
-const storyTabs = Array.from(document.querySelectorAll('.story-tabs [role="tab"]'));
-function selectStory(index, moveFocus = false) {
-  storyTabs.forEach((tab, current) => {
-    const selected = current === index;
-    tab.setAttribute('aria-selected', String(selected));
-    tab.tabIndex = selected ? 0 : -1;
-    document.getElementById(tab.getAttribute('aria-controls')).hidden = !selected;
+const playBtn = document.querySelector('.video-play-btn');
+if (playBtn) {
+  playBtn.addEventListener('click', () => {
+    document.getElementById('pedido')?.scrollIntoView({ behavior: 'smooth' });
   });
-  if (moveFocus) storyTabs[index].focus();
 }
-storyTabs.forEach((tab, index) => {
-  tab.addEventListener('click', () => selectStory(index));
-  tab.addEventListener('keydown', event => {
-    let target;
-    if (event.key === 'ArrowRight') target = (index + 1) % storyTabs.length;
-    if (event.key === 'ArrowLeft') target = (index - 1 + storyTabs.length) % storyTabs.length;
-    if (event.key === 'Home') target = 0;
-    if (event.key === 'End') target = storyTabs.length - 1;
-    if (target === undefined) return;
-    event.preventDefault();
-    selectStory(target, true);
+const storyTabs = Array.from(document.querySelectorAll('.story-tabs [role="tab"]'));
+if (storyTabs.length > 0) {
+  function selectStory(index, moveFocus = false) {
+    storyTabs.forEach((tab, current) => {
+      const selected = current === index;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      const ctrl = document.getElementById(tab.getAttribute('aria-controls'));
+      if (ctrl) ctrl.hidden = !selected;
+    });
+    if (moveFocus) storyTabs[index].focus();
+  }
+  storyTabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => selectStory(index));
+    tab.addEventListener('keydown', event => {
+      let target;
+      if (event.key === 'ArrowRight') target = (index + 1) % storyTabs.length;
+      if (event.key === 'ArrowLeft') target = (index - 1 + storyTabs.length) % storyTabs.length;
+      if (event.key === 'Home') target = 0;
+      if (event.key === 'End') target = storyTabs.length - 1;
+      if (target === undefined) return;
+      event.preventDefault();
+      selectStory(target, true);
+    });
   });
-});
+}
 showStep(0, false);

@@ -75,17 +75,367 @@
 @media(max-width:360px){.reference-hero h1{font-size:27px}.hero-benefits li{font-size:11px}.reference-hero .hero-content{padding-block:22px}.hero-location{font-size:9px}.hero-assurances li{font-size:9px}}
 @media(max-width:760px){.hero-question{font-size:17px;margin-top:16px}}
 @media(max-width:480px){.hero-question{font-size:15px;margin-top:15px}}
-.story-section{background:#edf5f7;border-bottom:1px solid #cfdee2}
-.story-section h2{max-width:850px}
-.story-disclosure{max-width:850px;margin:22px 0 30px;color:#374f57;font-size:16px;line-height:1.6}
-.story-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-bottom:1px solid #9bb7c0;gap:6px}
-.story-tabs button{background:transparent;color:#3c5862;border-bottom:3px solid transparent;border-radius:0;min-height:66px;padding:12px 10px;font-size:14px;font-weight:600;line-height:1.4}
-.story-tabs button:hover{background:#dcecf0}
-.story-tabs button[aria-selected=true]{border-color:#194b3d;color:#123c31;background:#dae9e6}
-.story-panels{display:grid;padding-top:30px}
-.story-panel{grid-area:1/1;min-width:0;min-height:235px}
-.story-label{font-size:12px;font-weight:700;color:#34545f;margin-bottom:18px}
-.story-panel blockquote{margin:0;max-width:990px;font-size:25px;line-height:1.6;color:#182f37}
-@media(max-width:760px){.story-section h2{font-size:34px}.story-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.story-tabs button{min-height:54px;font-size:13px}.story-tabs button:last-child{grid-column:1/-1}.story-disclosure{font-size:14px}.story-panel{min-height:310px}.story-panel blockquote{font-size:20px;line-height:1.55}}
-@media(max-width:360px){.story-section h2{font-size:30px}.story-panel{min-height:375px}}
+/* Social Proof Section (Acquisition.com / Hormozi style) */
+.social-proof-section {
+  background: #f6f8f6;
+  border-bottom: 1px solid #dce2dc;
+  padding-block: 80px;
+}
+.social-proof-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.social-proof-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.social-proof-title {
+  font-size: 56px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.social-proof-stage {
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* Rating & Social Proof Summary Card (Replacing Video Cover) */
+.social-proof-summary-card {
+  width: 100%;
+  background: linear-gradient(135deg, #194b3d 0%, #0f3228 100%);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 20px 40px -10px rgba(25, 75, 61, 0.35);
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.summary-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.avatar-group {
+  display: flex;
+  align-items: center;
+}
+.mini-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #194b3d;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #ffffff;
+  margin-left: -10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.avatar-group .mini-avatar:first-child {
+  margin-left: 0;
+}
+.summary-rating-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.stars-gold {
+  color: #f59e0b;
+  font-size: 16px;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+.rating-score {
+  font-size: 14px;
+  font-weight: 700;
+  color: #e9f69e;
+}
+.summary-headline {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+.summary-subtext {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #cde0d7;
+  margin-bottom: 22px;
+}
+.summary-metrics {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 16px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.metric-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: #e9f69e;
+  line-height: 1.1;
+}
+.metric-lbl {
+  font-size: 11px;
+  color: #a3c2b6;
+  margin-top: 4px;
+  font-weight: 500;
+}
+.metric-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 600px) {
+  .social-proof-summary-card {
+    padding: 22px 20px;
+  }
+  .summary-headline {
+    font-size: 19px;
+  }
+  .summary-subtext {
+    font-size: 13px;
+  }
+  .summary-metrics {
+    padding: 12px 10px;
+  }
+  .metric-val {
+    font-size: 18px;
+  }
+  .metric-lbl {
+    font-size: 9px;
+  }
+}
+
+/* Reviews Stack Layout */
+.reviews-stack {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 2;
+  position: relative;
+  padding-top: 10px;
+}
+
+/* Review Cards Styling */
+.review-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px 26px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 12px 30px -6px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+.review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px -8px rgba(0, 0, 0, 0.12);
+}
+
+/* Offset Overlapping Cards effect matching Image 1 */
+.card-julie {
+  width: 96%;
+  margin-left: 2%;
+}
+.card-drew {
+  width: 98%;
+  margin-left: 4%;
+  margin-top: -10px;
+}
+.card-hunter {
+  width: 96%;
+  margin-left: 0%;
+  margin-top: -10px;
+}
+.card-ana {
+  width: 97%;
+  margin-left: 3%;
+}
+.card-rui {
+  width: 96%;
+  margin-left: 1%;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.reviewer-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.3);
+}
+.avatar-magenta { background: #9f1239; }
+.avatar-dark { background: #334155; }
+.avatar-orange { background: #c2410c; }
+.avatar-teal { background: #0f766e; }
+.avatar-purple { background: #6b21a8; }
+
+.reviewer-details {
+  display: flex;
+  flex-direction: column;
+}
+.reviewer-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.25;
+}
+.reviewer-meta {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.review-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.stars-rating {
+  color: #f59e0b;
+  font-size: 15px;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+.review-date {
+  font-size: 12px;
+  color: #64748b;
+}
+.review-badge-new {
+  background: #f0f9ff;
+  color: #0284c7;
+  border: 1px solid #bae6fd;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+.review-badge-verified {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.review-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #334155;
+  margin: 0;
+}
+.review-highlight {
+  background-color: #fef08a;
+  color: #0f172a;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-weight: 600;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.review-photos {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.review-photos img {
+  width: 75px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+.review-footer {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+}
+.reaction-badge {
+  font-size: 12px;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f8fafc;
+  padding: 4px 8px;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+}
+
+@media (max-width: 760px) {
+  .social-proof-title {
+    font-size: 38px;
+  }
+  .featured-media-card {
+    margin-bottom: -20px;
+  }
+  .play-btn-circle {
+    width: 60px;
+    height: 60px;
+  }
+  .play-btn-circle svg {
+    width: 24px;
+    height: 24px;
+  }
+  .card-julie, .card-drew, .card-hunter, .card-ana, .card-rui {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0;
+  }
+  .review-card {
+    padding: 18px 20px;
+  }
+  .review-text {
+    font-size: 13px;
+  }
+}
+
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
