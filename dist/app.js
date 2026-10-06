@@ -184,6 +184,7 @@ const scenarioSection = document.querySelector('.recognition-process');
 const scenarioTabs = [...document.querySelectorAll('.recognition-tabs [role="tab"]')];
 const scenarioMotion = scenarioSection?.querySelector('.recognition-motion');
 const scenarioReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const scenarioMobile = window.matchMedia('(max-width: 760px)');
 let scenarioIndex = 0;
 let scenarioElapsed = 0;
 let scenarioPaused = scenarioReducedMotion.matches;
@@ -192,6 +193,7 @@ let scenarioHovered = false;
 let scenarioLastTick = performance.now();
 function updateScenarioMotion() {
   if (!scenarioMotion) return;
+  scenarioMotion.hidden = scenarioMobile.matches;
   const label = scenarioPaused ? 'Retomar apresentação' : 'Pausar apresentação';
   scenarioMotion.setAttribute('aria-label', label);
   scenarioMotion.setAttribute('aria-pressed', String(scenarioPaused));
@@ -231,8 +233,33 @@ scenarioTabs.forEach((tab, index) => {
   });
 });
 if (scenarioSection && scenarioMotion) {
-  scenarioMotion.hidden = false;
   updateScenarioMotion();
+  let scenarioScrollFrame = 0;
+  const syncScenarioToScroll = () => {
+    scenarioScrollFrame = 0;
+    if (!scenarioMobile.matches) return;
+    const usableHeight = innerHeight - (parseFloat(getComputedStyle(document.body).paddingBottom) || 0);
+    const readingLine = Math.min(240, usableHeight * 0.35);
+    const bounds = scenarioTabs.map(tab => tab.getBoundingClientRect());
+    // The image follows the text crossing the reading line, in either scroll direction.
+    let index = 0;
+    bounds.forEach((rect, current) => { if (rect.top <= readingLine) index = current; });
+    if (index !== scenarioIndex) selectScenario(index);
+    const progress = Math.max(0, Math.min(1, (readingLine - bounds[index].top) / bounds[index].height));
+    scenarioTabs[index].querySelector('.recognition-progress > span').style.transform = `scaleX(${progress})`;
+  };
+  const scheduleScenarioScroll = () => {
+    if (scenarioMobile.matches && !scenarioScrollFrame) scenarioScrollFrame = requestAnimationFrame(syncScenarioToScroll);
+  };
+  addEventListener('scroll', scheduleScenarioScroll, { passive: true });
+  addEventListener('resize', scheduleScenarioScroll);
+  scenarioMobile.addEventListener('change', () => {
+    scenarioElapsed = 0;
+    updateScenarioMotion();
+    scheduleScenarioScroll();
+  });
+  new ResizeObserver(scheduleScenarioScroll).observe(scenarioSection);
+  scheduleScenarioScroll();
   scenarioMotion.addEventListener('click', () => {
     scenarioPaused = !scenarioPaused;
     updateScenarioMotion();
@@ -254,7 +281,7 @@ if (scenarioSection && scenarioMotion) {
     const now = performance.now();
     const delta = Math.min(now - scenarioLastTick, 200);
     scenarioLastTick = now;
-    if (!scenarioInView || scenarioPaused || scenarioHovered || document.hidden) return;
+    if (scenarioMobile.matches || !scenarioInView || scenarioPaused || scenarioHovered || document.hidden) return;
     scenarioElapsed += delta;
     if (scenarioElapsed >= 7000) selectScenario((scenarioIndex + 1) % scenarioTabs.length);
     scenarioTabs[scenarioIndex].querySelector('.recognition-progress > span').style.transform = `scaleX(${scenarioElapsed / 7000})`;

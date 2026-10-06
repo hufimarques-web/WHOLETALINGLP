@@ -57,14 +57,19 @@
  .recognition-step-description{font-size:14px;line-height:1.6}.recognition-step-note{font-size:13px;line-height:1.55}
  .recognition-tabs [role=tab]:hover .recognition-step-title{transform:none}
  .recognition-window{position:sticky;top:20px;align-self:start}
- .recognition-window-toolbar{min-height:48px;padding:2px 6px;gap:4px;justify-content:space-between}
+ .recognition-window-toolbar{min-height:36px;padding:8px 10px;gap:4px;justify-content:space-between}
  .recognition-window-dots{display:none}.recognition-window-count{font-size:10px;padding-left:4px}
  .recognition-motion{width:44px;height:44px;flex-shrink:0}
- .recognition-panels{aspect-ratio:3/4}
+ .recognition-panels{aspect-ratio:1}
+ .recognition-panel:not([hidden]) img{animation:recognition-mobile-photo-in .3s ease both}
+ #scenario-panel-0 img{object-position:50% 50%}
+ #scenario-panel-1 img{object-position:55% 55%}
+ #scenario-panel-2 img{object-position:50% 55%}
  .recognition-window-caption{display:block;padding:12px 10px;min-height:0;font-size:11px;line-height:1.5}
  .recognition-window-caption svg{display:block;width:15px;height:15px;margin-bottom:8px}
  .recognition-progress{margin-top:16px}
 }
+@keyframes recognition-mobile-photo-in{from{opacity:.35}to{opacity:1}}
 @media(max-width:400px){.recognition-process-layout{gap:12px}.recognition-step-title{font-size:19px}}
 @media(max-width:350px){.recognition-process-heading h2{font-size:28px}.recognition-step-title{font-size:18px}.recognition-step-label{padding-left:20px;font-size:9px}.recognition-window-caption{padding-inline:8px}}
 @media(prefers-reduced-motion:reduce){.recognition-tabs [role=tab],.recognition-numeral,.recognition-step-title{transition:none}.recognition-panel:not([hidden]) img{animation:none}.recognition-tabs [role=tab]:hover .recognition-step-title{transform:none}}
