@@ -358,9 +358,11 @@ if (footerReveal) {
   const updateFooterReveal = () => {
     frame = 0;
     const bounds = footerReveal.getBoundingClientRect();
-    const enabled = !reduced.matches && bounds.height < innerHeight;
-    const visible = bounds.top < innerHeight && bounds.bottom > 0;
-    const progress = Math.max(0, Math.min(1, (innerHeight - bounds.top) / bounds.height));
+    const bottom = parseFloat(getComputedStyle(document.body).paddingBottom) || 0;
+    const availableHeight = innerHeight - bottom;
+    const enabled = !reduced.matches && bounds.height < availableHeight;
+    const visible = bounds.top < availableHeight && bounds.bottom > 0;
+    const progress = Math.max(0, Math.min(1, (availableHeight - bounds.top) / bounds.height));
     footerReveal.classList.toggle('is-reveal-ready', enabled);
     footerReveal.classList.toggle('is-reveal-visible', visible);
     // Fixed content is clipped to its reserved space, never over the preceding section.
