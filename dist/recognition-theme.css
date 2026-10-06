@@ -1,5 +1,4 @@
 .recognition-process{position:relative;isolation:isolate;background:#132b23;color:#f1f7f3;padding:104px 0 112px;overflow:clip}
-.recognition-process:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:repeating-linear-gradient(-45deg,transparent,transparent 40px,#ffffff08 40px,#ffffff08 41px)}
 .recognition-process>.wrap{max-width:1280px}
 .recognition-process-heading{margin-bottom:72px}
 .recognition-process-heading .eyebrow{color:#b9c9bf;font:400 12px/1.6 ui-monospace,monospace;margin-bottom:26px;gap:14px}
@@ -58,3 +57,10 @@
 }
 @media(max-width:350px){.recognition-process-heading h2{font-size:28px}.recognition-step-title{font-size:23px}}
 @media(prefers-reduced-motion:reduce){.recognition-tabs [role=tab],.recognition-numeral,.recognition-step-title{transition:none}.recognition-panel:not([hidden]) img{animation:none}.recognition-tabs [role=tab]:hover .recognition-step-title{transform:none}}
+
+.recognition-process,#preco,.benefit-ticker,.site-footer,.mobile-sticky-cta{
+ background-image:repeating-linear-gradient(-45deg,transparent 0,transparent 40px,#ffffff08 40px,#ffffff08 41px);
+}
+.closing.closing-highlight,.process,.testimonials{
+ background-image:repeating-linear-gradient(-45deg,transparent 0,transparent 40px,#132b230a 40px,#132b230a 41px);
+}
