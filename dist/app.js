@@ -350,34 +350,38 @@ if (benefitTicker) {
     lucide.createIcons();
   });
 }
-const processSection = document.getElementById('etapas');
-if (processSection) {
-  const toggle = processSection.querySelector('.process-motion-toggle');
+[
+  { id: 'etapas', control: '.process-motion-toggle', playing: 'is-process-playing', subject: 'das etapas' },
+  { id: 'preco', control: '.price-motion-toggle', playing: 'is-price-playing', subject: 'dos fatores de preço' }
+].forEach(({ id, control, playing, subject }) => {
+  const section = document.getElementById(id);
+  const toggle = section?.querySelector(control);
+  if (!toggle) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let paused = false;
   let inView = false;
-  const updateProcessMotion = () => {
-    processSection.classList.toggle('is-process-playing', inView && !paused && !reduced.matches && !document.hidden);
+  const updateMotion = () => {
+    section.classList.toggle(playing, inView && !paused && !reduced.matches && !document.hidden);
     toggle.hidden = reduced.matches;
   };
   toggle.addEventListener('click', () => {
     paused = !paused;
-    const label = paused ? 'Retomar animações das etapas' : 'Pausar animações das etapas';
+    const label = `${paused ? 'Retomar' : 'Pausar'} animações ${subject}`;
     toggle.setAttribute('aria-pressed', String(paused));
     toggle.setAttribute('aria-label', label);
     toggle.title = label;
     toggle.innerHTML = `<i data-lucide="${paused ? 'play' : 'pause'}" aria-hidden="true"></i>`;
     lucide.createIcons();
-    updateProcessMotion();
+    updateMotion();
   });
   new IntersectionObserver(([entry]) => {
     inView = entry.isIntersecting;
-    updateProcessMotion();
-  }, { threshold: 0.05 }).observe(processSection);
-  reduced.addEventListener('change', updateProcessMotion);
-  document.addEventListener('visibilitychange', updateProcessMotion);
-  updateProcessMotion();
-}
+    updateMotion();
+  }, { threshold: 0.05 }).observe(section);
+  reduced.addEventListener('change', updateMotion);
+  document.addEventListener('visibilitychange', updateMotion);
+  updateMotion();
+});
 const footerReveal = document.querySelector('.footer-reveal-shell');
 if (footerReveal) {
   const panel = footerReveal.querySelector('.footer-reveal-panel');
