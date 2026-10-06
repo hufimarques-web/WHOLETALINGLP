@@ -3,7 +3,9 @@
 if (window.lucide) window.lucide.createIcons();
 const form = document.getElementById('lead-form');
 const steps = [...form.querySelectorAll('fieldset')];
-const titles = ['O imóvel', 'A sua venda', 'Preço e condições', 'A conversa'];
+const titles = ['O imóvel', 'Localização e estado', 'A sua venda', 'Preço e condições', 'A conversa'];
+const priceStep = steps.findIndex(panel => panel.querySelector('#minimo'));
+const contactStep = steps.findIndex(panel => panel.querySelector('#telefone'));
 const back = document.getElementById('back');
 const next = document.getElementById('next');
 const error = document.getElementById('form-error');
@@ -28,10 +30,10 @@ function showStep(index, focus = true) {
   steps.forEach((panel, i) => { panel.hidden = i !== index; panel.disabled = i !== index; });
   syncOffer();
   back.hidden = index === 0;
-  next.querySelector('span').textContent = index === 3 ? 'Ver resumo de teste' : 'Continuar';
+  next.querySelector('span').textContent = index === steps.length - 1 ? 'Ver resumo de teste' : 'Continuar';
   document.getElementById('step-name').textContent = titles[index];
-  document.getElementById('step-count').textContent = `0${index + 1} / 04`;
-  document.getElementById('progress-fill').style.width = `${(index + 1) * 25}%`;
+  document.getElementById('step-count').textContent = `${String(index + 1).padStart(2, '0')} / ${String(steps.length).padStart(2, '0')}`;
+  document.getElementById('progress-fill').style.width = `${(index + 1) / steps.length * 100}%`;
   document.querySelector('.progress').setAttribute('aria-valuenow', String(index + 1));
   error.hidden = true;
   if (focus) {
@@ -63,7 +65,7 @@ function validateCurrent() {
     fail(invalid.type === 'radio' ? 'Selecione o tipo de imóvel para continuar.' : 'Preencha os campos obrigatórios com valores válidos.', invalid);
     return false;
   }
-  if (step === 2) {
+  if (step === priceStep) {
     const price = Number(document.getElementById('pedido-preco').value);
     const minimum = Number(document.getElementById('minimo').value);
     if (price && minimum > price) {
@@ -71,7 +73,7 @@ function validateCurrent() {
       return false;
     }
   }
-  if (step === 3) {
+  if (step === contactStep) {
     const phone = document.getElementById('telefone');
     const compact = phone.value.replace(/[\s()-]/g, '');
     if (!/^(?:\+|00)?[0-9]{9,15}$/.test(compact)) {
@@ -109,14 +111,14 @@ function showSummary() {
 form.addEventListener('submit', event => {
   event.preventDefault();
   if (!validateCurrent()) return;
-  if (step === 2 && document.getElementById('enquadramento').value === 'nao') {
+  if (step === priceStep && document.getElementById('enquadramento').value === 'nao') {
     form.hidden = true;
     noFit.hidden = false;
     noFit.focus({ preventScroll: true });
     noFit.scrollIntoView({ block: 'nearest', behavior: 'instant' });
     return;
   }
-  if (step < 3) showStep(step + 1);
+  if (step < steps.length - 1) showStep(step + 1);
   else showSummary();
 });
 form.addEventListener('change', event => {
@@ -129,7 +131,7 @@ form.addEventListener('change', event => {
 });
 document.getElementById('propostas').addEventListener('change', syncOffer);
 back.addEventListener('click', () => showStep(Math.max(0, step - 1)));
-document.getElementById('reconsider').addEventListener('click', () => showStep(2));
+document.getElementById('reconsider').addEventListener('click', () => showStep(priceStep));
 document.getElementById('edit').addEventListener('click', () => showStep(0));
 document.getElementById('restart').addEventListener('click', () => {
   form.reset();

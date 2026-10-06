@@ -1,0 +1,62 @@
+.reference-hero .hero-form-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  align-items:center;
+  gap:56px;
+  max-width:1280px;
+  padding-block:48px;
+  text-align:left;
+}
+.hero-message{min-width:0}
+.hero-form-layout .hero-location{justify-content:flex-start}
+.reference-hero .hero-form-layout h1{font-size:48px;line-height:1.12;text-wrap:initial;margin:0}
+.hero-form-layout .hero-question{font-size:21px;margin:24px 0 0;text-wrap:initial}
+.hero-form-layout .hero-assurances{justify-content:flex-start;gap:12px 20px}
+.hero-form-layout .hero-deadline{margin-inline:0;max-width:490px}
+.hero-form-layout .hero-qualification{padding:0;background:#fff;color:#19382b;border:1px solid #d4e1d9;border-radius:8px;overflow:hidden;min-width:0;scroll-margin-top:20px;box-shadow:0 20px 60px #071d2340}
+.hero-qualification .form-layout{display:block}
+.hero-qualification .form-intro{position:static;padding:20px 26px;background:#132b23 repeating-linear-gradient(-45deg,transparent 0,transparent 40px,#ffffff08 40px,#ffffff08 41px)}
+.hero-qualification .form-intro>.eyebrow{font-size:10px;color:#b7d7c5;margin-bottom:8px}
+.hero-qualification .form-intro .index{display:none}
+.hero-qualification .form-intro h2{font-size:22px;line-height:1.3;color:#fff}
+.hero-qualification .form-intro h2 em{color:#a9e3c0!important}
+.hero-qualification .form-shell{padding:22px 26px;border:0;border-radius:0;box-shadow:none;min-height:0}
+.hero-qualification .progress{margin:10px 0 20px}
+.hero-qualification #progress-fill{width:20%}
+.hero-qualification .form-shell legend{font-size:24px}
+.hero-qualification .step-description{margin-bottom:16px}
+.hero-qualification .property-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:12px;gap:10px}
+.hero-qualification .property-option{height:88px;font-size:14px;gap:8px;align-items:flex-start;padding:16px}
+.hero-qualification label:not(.property-option){margin:12px 0 6px;font-size:13px}
+.hero-qualification .form-actions{margin-top:20px}
+.hero-qualification .form-actions>.button{flex:1;min-width:0}
+.hero-qualification .form-bottom{margin-top:14px}
+@media(min-width:1650px){
+  .reference-hero .hero-form-layout{padding-block:60px}
+  .reference-hero .hero-form-layout h1{font-size:54px}
+}
+@media(max-width:1100px) and (min-width:761px){
+  .reference-hero .hero-form-layout{gap:28px;width:calc(100% - 48px)}
+  .reference-hero .hero-form-layout h1{font-size:38px}
+  .hero-form-layout .hero-question{font-size:18px}
+  .reference-hero .hero-form-layout .hero-cta{min-width:0;width:100%;font-size:12px;gap:12px}
+  .hero-qualification .form-shell,.hero-qualification .form-intro{padding-inline:20px}
+  .hero-qualification .two{grid-template-columns:1fr;gap:0}
+}
+@media(max-width:760px){
+  .reference-hero .hero-form-layout{grid-template-columns:minmax(0,1fr);gap:28px;padding-block:32px 28px}
+  .reference-hero .hero-form-layout h1{font-size:34px;line-height:1.13}
+  .hero-form-layout .hero-question{font-size:18px;margin-top:18px}
+  .hero-form-layout .hero-assurances{gap:10px 16px}
+  .hero-qualification .form-intro{padding:18px 20px}
+  .hero-qualification .form-intro h2{font-size:21px}
+  .hero-qualification .form-shell{padding:22px 20px}
+  .hero-qualification .property-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-qualification .property-option{height:82px;font-size:13px}
+}
+@media(max-width:400px){
+  .reference-hero .hero-form-layout h1{font-size:30px}
+  .hero-form-layout .hero-question{font-size:17px}
+  .hero-qualification .form-shell,.hero-qualification .form-intro{padding-inline:16px}
+  .hero-qualification .form-shell legend{font-size:22px}
+}
