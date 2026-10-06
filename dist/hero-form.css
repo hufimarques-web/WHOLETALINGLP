@@ -7,7 +7,7 @@
   padding-block:48px;
   text-align:left;
 }
-.hero-message{min-width:0}
+.hero-message,.hero-form-column{min-width:0}
 .hero-form-layout .hero-location{justify-content:flex-start}
 .reference-hero .hero-form-layout h1{font-size:48px;line-height:1.12;text-wrap:initial;margin:0}
 .hero-form-layout .hero-question{font-size:21px;margin:24px 0 0;text-wrap:initial}
