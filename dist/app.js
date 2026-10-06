@@ -350,6 +350,32 @@ if (benefitTicker) {
     lucide.createIcons();
   });
 }
+const footerReveal = document.querySelector('.footer-reveal-shell');
+if (footerReveal) {
+  const panel = footerReveal.querySelector('.footer-reveal-panel');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let frame = 0;
+  const updateFooterReveal = () => {
+    frame = 0;
+    const bounds = footerReveal.getBoundingClientRect();
+    const enabled = !reduced.matches && bounds.height < innerHeight;
+    const visible = bounds.top < innerHeight && bounds.bottom > 0;
+    const progress = Math.max(0, Math.min(1, (innerHeight - bounds.top) / bounds.height));
+    footerReveal.classList.toggle('is-reveal-ready', enabled);
+    footerReveal.classList.toggle('is-reveal-visible', visible);
+    // Fixed content is clipped to its reserved space, never over the preceding section.
+    panel.inert = enabled && !visible;
+    footerReveal.style.setProperty('--footer-shift', `${enabled ? (1 - progress) * 90 : 0}px`);
+  };
+  const scheduleFooterReveal = () => {
+    if (!frame) frame = requestAnimationFrame(updateFooterReveal);
+  };
+  addEventListener('scroll', scheduleFooterReveal, { passive: true });
+  addEventListener('resize', scheduleFooterReveal);
+  reduced.addEventListener('change', scheduleFooterReveal);
+  new ResizeObserver(scheduleFooterReveal).observe(footerReveal);
+  updateFooterReveal();
+}
 const stickyCta = document.querySelector('.mobile-sticky-cta');
 const requestSection = document.getElementById('pedido');
 if (stickyCta && requestSection) {
