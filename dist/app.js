@@ -178,4 +178,93 @@ if (storyTabs.length > 0) {
     });
   });
 }
+const scenarioTabs = [...document.querySelectorAll('.scenario-tabs [role="tab"]')];
+function selectScenario(index, focus = false) {
+  scenarioTabs.forEach((tab, current) => {
+    const selected = current === index;
+    tab.setAttribute('aria-selected', String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+    document.getElementById(tab.getAttribute('aria-controls')).hidden = !selected;
+  });
+  if (focus) scenarioTabs[index].focus({ preventScroll: true });
+}
+scenarioTabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => selectScenario(index));
+  tab.addEventListener('keydown', event => {
+    let target;
+    if (event.key === 'ArrowRight') target = (index + 1) % scenarioTabs.length;
+    if (event.key === 'ArrowLeft') target = (index - 1 + scenarioTabs.length) % scenarioTabs.length;
+    if (event.key === 'Home') target = 0;
+    if (event.key === 'End') target = scenarioTabs.length - 1;
+    if (target === undefined) return;
+    event.preventDefault();
+    selectScenario(target, true);
+  });
+});
+const carousel = document.querySelector('.testimonials-carousel');
+if (carousel) {
+  const panels = [...carousel.querySelectorAll('.testimonial-panel')];
+  const previous = carousel.querySelector('.carousel-prev');
+  const following = carousel.querySelector('.carousel-next');
+  const status = document.querySelector('.carousel-status');
+  const mobile = window.matchMedia('(max-width: 760px)');
+  let first = 0;
+  function showTestimonials() {
+    const visible = mobile.matches ? 1 : 2;
+    first = Math.max(0, Math.min(first, panels.length - visible));
+    panels.forEach((panel, index) => { panel.hidden = index < first || index >= first + visible; });
+    previous.disabled = first === 0;
+    following.disabled = first + visible >= panels.length;
+    status.textContent = visible === 1
+      ? `${first + 1} / ${panels.length}`
+      : `${first + 1}\u2013${Math.min(first + visible, panels.length)} / ${panels.length}`;
+  }
+  previous.addEventListener('click', () => { first--; showTestimonials(); });
+  following.addEventListener('click', () => { first++; showTestimonials(); });
+  carousel.addEventListener('keydown', event => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    if (event.key === 'ArrowLeft') first--;
+    if (event.key === 'ArrowRight') first++;
+    if (event.key === 'Home') first = 0;
+    if (event.key === 'End') first = panels.length;
+    showTestimonials();
+    if (document.activeElement.disabled) (following.disabled ? previous : following).focus();
+  });
+  mobile.addEventListener('change', showTestimonials);
+  showTestimonials();
+}
+const benefitTicker = document.querySelector('.benefit-ticker');
+if (benefitTicker) {
+  const track = benefitTicker.querySelector('.benefit-ticker-track');
+  const duplicate = track.firstElementChild.cloneNode(true);
+  duplicate.setAttribute('aria-hidden', 'true');
+  track.append(duplicate);
+  const toggle = benefitTicker.querySelector('.benefit-ticker-toggle');
+  toggle.hidden = false;
+  benefitTicker.classList.add('is-ready');
+  toggle.addEventListener('click', () => {
+    const paused = benefitTicker.classList.toggle('is-paused');
+    const label = paused ? 'Retomar movimento' : 'Pausar movimento';
+    toggle.setAttribute('aria-pressed', String(paused));
+    toggle.setAttribute('aria-label', label);
+    toggle.title = label;
+    toggle.innerHTML = `<i data-lucide="${paused ? 'play' : 'pause'}" aria-hidden="true"></i>`;
+    lucide.createIcons();
+  });
+}
+const stickyCta = document.querySelector('.mobile-sticky-cta');
+const requestSection = document.getElementById('pedido');
+if (stickyCta && requestSection) {
+  let requestVisible = false;
+  const updateStickyCta = () => {
+    stickyCta.hidden = requestVisible || requestSection.contains(document.activeElement);
+  };
+  const requestObserver = new IntersectionObserver(([entry]) => {
+    requestVisible = entry.isIntersecting;
+    updateStickyCta();
+  });
+  requestObserver.observe(requestSection);
+  document.addEventListener('focusin', updateStickyCta);
+}
 showStep(0, false);
