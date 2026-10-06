@@ -75,4 +75,17 @@
 @media(max-width:360px){.reference-hero h1{font-size:27px}.hero-benefits li{font-size:11px}.reference-hero .hero-content{padding-block:22px}.hero-location{font-size:9px}.hero-assurances li{font-size:9px}}
 @media(max-width:760px){.hero-question{font-size:17px;margin-top:16px}}
 @media(max-width:480px){.hero-question{font-size:15px;margin-top:15px}}
+.story-section{background:#edf5f7;border-bottom:1px solid #cfdee2}
+.story-section h2{max-width:850px}
+.story-disclosure{max-width:850px;margin:22px 0 30px;color:#374f57;font-size:16px;line-height:1.6}
+.story-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-bottom:1px solid #9bb7c0;gap:6px}
+.story-tabs button{background:transparent;color:#3c5862;border-bottom:3px solid transparent;border-radius:0;min-height:66px;padding:12px 10px;font-size:14px;font-weight:600;line-height:1.4}
+.story-tabs button:hover{background:#dcecf0}
+.story-tabs button[aria-selected=true]{border-color:#194b3d;color:#123c31;background:#dae9e6}
+.story-panels{display:grid;padding-top:30px}
+.story-panel{grid-area:1/1;min-width:0;min-height:235px}
+.story-label{font-size:12px;font-weight:700;color:#34545f;margin-bottom:18px}
+.story-panel blockquote{margin:0;max-width:990px;font-size:25px;line-height:1.6;color:#182f37}
+@media(max-width:760px){.story-section h2{font-size:34px}.story-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.story-tabs button{min-height:54px;font-size:13px}.story-tabs button:last-child{grid-column:1/-1}.story-disclosure{font-size:14px}.story-panel{min-height:310px}.story-panel blockquote{font-size:20px;line-height:1.55}}
+@media(max-width:360px){.story-section h2{font-size:30px}.story-panel{min-height:375px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
