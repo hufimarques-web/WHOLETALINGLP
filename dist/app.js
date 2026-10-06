@@ -350,6 +350,34 @@ if (benefitTicker) {
     lucide.createIcons();
   });
 }
+const processSection = document.getElementById('etapas');
+if (processSection) {
+  const toggle = processSection.querySelector('.process-motion-toggle');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let paused = false;
+  let inView = false;
+  const updateProcessMotion = () => {
+    processSection.classList.toggle('is-process-playing', inView && !paused && !reduced.matches && !document.hidden);
+    toggle.hidden = reduced.matches;
+  };
+  toggle.addEventListener('click', () => {
+    paused = !paused;
+    const label = paused ? 'Retomar animações das etapas' : 'Pausar animações das etapas';
+    toggle.setAttribute('aria-pressed', String(paused));
+    toggle.setAttribute('aria-label', label);
+    toggle.title = label;
+    toggle.innerHTML = `<i data-lucide="${paused ? 'play' : 'pause'}" aria-hidden="true"></i>`;
+    lucide.createIcons();
+    updateProcessMotion();
+  });
+  new IntersectionObserver(([entry]) => {
+    inView = entry.isIntersecting;
+    updateProcessMotion();
+  }, { threshold: 0.05 }).observe(processSection);
+  reduced.addEventListener('change', updateProcessMotion);
+  document.addEventListener('visibilitychange', updateProcessMotion);
+  updateProcessMotion();
+}
 const footerReveal = document.querySelector('.footer-reveal-shell');
 if (footerReveal) {
   const panel = footerReveal.querySelector('.footer-reveal-panel');
