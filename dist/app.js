@@ -1,5 +1,5 @@
 'use strict';
-// Preview only: responses stay in memory; no submission, analytics or storage.
+// No storage or analytics. Sending stays unavailable until a same-origin endpoint is configured.
 if (window.lucide) window.lucide.createIcons();
 const form = document.getElementById('lead-form');
 const steps = [...form.querySelectorAll('fieldset')];
@@ -15,7 +15,28 @@ const situation = document.getElementById('situacao');
 const originalOptions = situation.innerHTML;
 const offerField = document.getElementById('offer-field');
 const offerInput = document.getElementById('melhor-proposta');
+const licence = document.getElementById('licenca');
+const confirmForm = document.getElementById('confirm-form');
+const confirmPhone = document.getElementById('confirmar-telefone');
+const sendStatus = document.getElementById('send-status');
+const sendButton = document.getElementById('send');
 let step = 0;
+let sending = false;
+
+function normalizePhone(value) {
+  let phone = value.replace(/[\s().-]/g, '').replace(/^00/, '+');
+  if (/^9\d{8}$/.test(phone)) phone = `+351${phone}`;
+  return phone;
+}
+function validPhone(value) {
+  const phone = normalizePhone(value);
+  return /^\+[1-9]\d{7,14}$/.test(phone) && (!phone.startsWith('+351') || /^\+3519\d{8}$/.test(phone));
+}
+function syncLicence() {
+  const isLand = form.querySelector('[name="tipoImovel"]:checked')?.value === 'Terreno';
+  document.getElementById('licenca-field').hidden = isLand;
+  licence.disabled = isLand;
+}
 
 function syncOffer() {
   const hasOffer = document.getElementById('propostas').value === 'sim';
@@ -29,8 +50,9 @@ function showStep(index, focus = true) {
   result.hidden = true;
   steps.forEach((panel, i) => { panel.hidden = i !== index; panel.disabled = i !== index; });
   syncOffer();
+  syncLicence();
   back.hidden = index === 0;
-  next.querySelector('span').textContent = index === steps.length - 1 ? 'Ver resumo de teste' : 'Continuar';
+  next.querySelector('span').textContent = index === steps.length - 1 ? 'Rever e confirmar' : 'Continuar';
   document.getElementById('step-name').textContent = titles[index];
   document.getElementById('step-count').textContent = `${String(index + 1).padStart(2, '0')} / ${String(steps.length).padStart(2, '0')}`;
   document.getElementById('progress-fill').style.width = `${(index + 1) / steps.length * 100}%`;
@@ -46,6 +68,7 @@ function values() {
   form.querySelectorAll('[name]').forEach(el => {
     if (el.type === 'radio' && !el.checked) return;
     if (el === offerInput && document.getElementById('propostas').value !== 'sim') return;
+    if (el === licence && licence.disabled) return;
     data[el.name] = el.value.trim();
   });
   return data;
@@ -75,9 +98,8 @@ function validateCurrent() {
   }
   if (step === contactStep) {
     const phone = document.getElementById('telefone');
-    const compact = phone.value.replace(/[\s()-]/g, '');
-    if (!/^(?:\+|00)?[0-9]{9,15}$/.test(compact)) {
-      fail('Indique um telefone válido. Pode incluir o indicativo internacional.', phone);
+    if (!validPhone(phone.value)) {
+      fail('Indique um telemóvel com 9 algarismos. Para outro país, inclua o indicativo, por exemplo +44.', phone);
       return false;
     }
   }
@@ -88,12 +110,22 @@ function showSummary() {
   const summary = document.getElementById('summary');
   summary.replaceChildren();
   const items = {
-    'Imóvel e localização': `${data.tipoImovel} · ${data.concelho}, ${data.freguesia}`,
+    'Imóvel e localização': `${data.tipoImovel} · ${data.localizacao}`,
     'Área indicada': `${data.areaM2} m² · ${data.tipoArea}`,
-    'Mínimo a estudar': new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(Number(data.valorMinimoAbsoluto)),
+    'Estado': data.situacaoAtual,
+    ...(data.licencaHabitacao ? { 'Licença de habitação': data.licencaHabitacao === 'sim' ? 'Sim' : 'Não' } : {}),
+    'Numa imobiliária': data.numaImobiliaria === 'sim' ? 'Sim' : 'Não',
+    'Tempo à venda': data.tempoVenda,
+    'Propostas recebidas': data.propostasRecebidas === 'sim' ? `Sim${data.melhorProposta ? ` · ${data.melhorProposta} €` : ''}` : 'Não',
+    'Preço pedido': data.precoPedido ? `${data.precoPedido} €` : 'Não indicado',
+    'Valor mínimo': new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(Number(data.valorMinimoAbsoluto)),
+    'Aceita negociar': data.flexibilidade,
+    'Preço e condições': data.enquadramento === 'sim' ? 'Sim, se fizerem sentido' : 'Quer saber mais',
     'Prazo pretendido': data.prazoPretendido,
+    ...(data.motivo ? { 'Motivo da venda': data.motivo } : {}),
     'Fotografias': data.fotosDisponiveis,
-    'Estado inicial previsto': 'Nova lead · Não contactado · Por analisar'
+    'Nome': data.nomeProprietario,
+    'Melhor horário': data.horario
   };
   Object.entries(items).forEach(([label, value]) => {
     const dt = document.createElement('dt');
@@ -104,6 +136,13 @@ function showSummary() {
   });
   form.hidden = true;
   result.hidden = false;
+  confirmForm.hidden = false;
+  sendButton.hidden = false;
+  confirmPhone.disabled = false;
+  document.getElementById('phone-review').textContent = data.telefone;
+  confirmPhone.value = '';
+  confirmPhone.removeAttribute('aria-invalid');
+  sendStatus.textContent = '';
   document.getElementById('step-name').textContent = 'Resumo';
   result.focus({ preventScroll: true });
   result.scrollIntoView({ block: 'nearest', behavior: 'instant' });
@@ -127,7 +166,57 @@ form.addEventListener('change', event => {
   situation.innerHTML = isLand
     ? '<option value="">Selecione</option><option>Construção confirmada por documento</option><option>Possível construção, ainda por confirmar</option><option>Terreno rústico / agrícola</option><option>Não sei</option>'
     : originalOptions;
-  if (isLand) document.getElementById('area-tipo').value = 'Área do terreno';
+  if (event.target.value !== 'Moradia') [...situation.options].find(option => option.value === 'Ruína')?.remove();
+  document.getElementById('area-tipo').value = isLand ? 'Área do terreno' : '';
+  licence.value = '';
+  syncLicence();
+});
+document.getElementById('edit-phone').addEventListener('click', () => {
+  showStep(contactStep);
+  document.getElementById('telefone').focus();
+});
+confirmForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (sending) return;
+  confirmPhone.removeAttribute('aria-invalid');
+  const data = values();
+  if (!validPhone(confirmPhone.value) || normalizePhone(confirmPhone.value) !== normalizePhone(data.telefone)) {
+    sendStatus.textContent = 'Os números não coincidem. Escreva o mesmo número ou escolha “Corrigir o número”.';
+    confirmPhone.setAttribute('aria-invalid', 'true');
+    confirmPhone.focus();
+    return;
+  }
+  const endpoint = confirmForm.dataset.endpoint;
+  if (!endpoint || !endpoint.startsWith('/') || endpoint.startsWith('//')) {
+    sendStatus.textContent = 'Número confirmado. O envio ainda não está ligado. Nenhuma resposta foi enviada.';
+    return;
+  }
+  sending = true;
+  sendButton.disabled = true;
+  result.querySelectorAll('.result-actions button, #edit-phone').forEach(button => { button.disabled = true; });
+  sendButton.querySelector('span').textContent = 'A enviar…';
+  sendStatus.textContent = '';
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
+      body: JSON.stringify({ ...data, telefone: normalizePhone(data.telefone), telefoneConfirmado: true })
+    });
+    const receipt = await response.json();
+    if (!response.ok || receipt.accepted !== true) throw new Error('Not accepted');
+    sendStatus.textContent = 'Respostas enviadas. Obrigado! Vamos analisar o seu imóvel.';
+    sendButton.hidden = true;
+    confirmPhone.disabled = true;
+  } catch {
+    sendStatus.textContent = 'Não foi possível confirmar o envio. As respostas continuam nesta página. Não feche a janela e tente mais tarde.';
+  } finally {
+    clearTimeout(timeout);
+    sending = false;
+    sendButton.disabled = false;
+    sendButton.querySelector('span').textContent = 'Enviar respostas';
+    result.querySelectorAll('.result-actions button, #edit-phone').forEach(button => { button.disabled = false; });
+  }
 });
 document.getElementById('propostas').addEventListener('change', syncOffer);
 back.addEventListener('click', () => showStep(Math.max(0, step - 1)));
@@ -135,6 +224,9 @@ document.getElementById('reconsider').addEventListener('click', () => showStep(p
 document.getElementById('edit').addEventListener('click', () => showStep(0));
 document.getElementById('restart').addEventListener('click', () => {
   form.reset();
+  confirmForm.reset();
+  sendButton.hidden = false;
+  confirmPhone.disabled = false;
   situation.innerHTML = originalOptions;
   form.querySelectorAll('[aria-invalid]').forEach(el => { el.removeAttribute('aria-invalid'); el.removeAttribute('aria-describedby'); });
   document.getElementById('summary').replaceChildren();

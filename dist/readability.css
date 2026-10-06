@@ -1,0 +1,80 @@
+/* Readable type and touch targets, shared by all screen sizes. */
+body{font-weight:500}
+.reference-hero .hero-form-layout h1{font-weight:700;color:#fff}
+.hero-form-layout .hero-question{color:#fff;font-weight:600;line-height:1.5}
+.hero-question strong{display:block;margin-top:12px;color:#b2f4cc}
+.hero-form-layout .hero-location{font-size:15px;font-weight:700}
+.hero-form-layout .hero-assurances li{font-size:16px;font-weight:700}
+.hero-form-layout .hero-deadline{font-size:15px;color:#fff;line-height:1.5}
+.hero-qualification .step-meta{font-size:14px;color:#405e4d}
+.hero-qualification .step-description{font-size:16px;line-height:1.5;color:#3b5748}
+.hero-qualification .property-option{font-size:17px;font-weight:700;color:#234735;min-height:88px}
+.hero-qualification label:not(.property-option){font-size:16px;font-weight:700;color:#244533}
+.hero-qualification label:not(.property-option)>span{font-size:14px;color:#526758}
+.hero-qualification input:not([type=radio]),.hero-qualification select,.hero-qualification textarea{font-size:16px;min-height:48px;border-color:#8da899}
+.hero-qualification .button{font-size:17px;min-height:52px}
+.hero-qualification .back,.hero-qualification .text-button{font-size:16px;min-height:44px;font-weight:700}
+.hero-qualification .form-bottom,.hero-qualification .test-notice,.hero-qualification .summary-disclaimer{font-size:14px;color:#425e4c;line-height:1.5}
+.hero-qualification .form-context p,.hero-qualification .form-result p{font-size:16px;line-height:1.5}
+#preview-result .summary-disclaimer{font-size:15px!important;line-height:1.5}
+.hero-qualification .form-context{background:#e7f4ec;color:#244533}
+.hero-qualification .form-result{padding-top:4px}
+.hero-qualification .form-result h3{font-size:26px;color:#193c2a}
+.hero-qualification #summary{font-size:16px;overflow-wrap:anywhere}
+.hero-qualification #summary dt{font-size:14px;font-weight:700;color:#526758}
+.hero-qualification #summary dd{font-size:16px;color:#193c2a}
+.hero-qualification .answer-review{background:transparent;border:0;border-bottom:1px solid #c2d6c8;border-radius:0}
+.hero-qualification .answer-review summary{font-size:16px;color:#234d36;padding:14px 0;display:flex;justify-content:space-between;gap:12px}
+.hero-qualification .answer-review[open] summary svg{transform:rotate(180deg)}
+.phone-confirmation{border-top:2px solid #8bd8ac;padding-top:18px;margin-top:24px}
+.phone-confirmation #phone-review{display:block;font-size:24px;letter-spacing:0;color:#145136;overflow-wrap:anywhere}
+.phone-confirmation #phone-help{font-size:15px;margin-top:8px;color:#425e4c}
+#confirm-form #send{width:100%;margin-top:12px}
+#send-status:not(:empty){padding:14px;border-left:3px solid #aa4a2a;background:#fff2e9;color:#68321f;font-size:16px}
+.button:disabled{opacity:.6;cursor:wait;transform:none}
+.eyebrow,.index,#preco .factor-num{font-size:13px!important}
+#situacoes h2,#situacoes h2 em,.recognition-step-title{font-weight:700}
+.recognition-step-title{color:#e1eee5}
+.recognition-tabs [aria-selected=true] .recognition-step-title{color:#fff}
+.recognition-process-heading .eyebrow{font-size:14px;color:#d8efdf}
+.recognition-step-label{font-size:13px;color:#c8e8d3;font-weight:700;line-height:1.5}
+.recognition-step-description,.recognition-step-note{font-size:17px;color:#e0eee4;font-weight:600}
+.recognition-tabs [aria-selected=true] .recognition-step-description{color:#fff}
+.recognition-window-caption{font-size:14px;color:#e0eee4}
+.recognition-window-count{font-size:14px;color:#d3ebdc}
+#preco .section-lead,#preco .price-note{color:#e0eee4;font-size:17px;font-weight:600}
+#preco .price-card p{font-size:17px;color:#385444}
+#etapas .process-card p{font-size:17px;color:#e1e7e4;font-weight:500}
+.benefit-ticker-group small{font-size:14px;color:#e1f0e7}
+.benefit-ticker-group strong{font-size:16px}
+.story-card blockquote{font-size:18px;font-weight:600;color:#f1f7f3}
+.story-profile p,.story-disclosure,.story-avatar{font-size:14px}
+.faq>div>p,.faq details p{font-size:17px;line-height:1.6}
+.faq summary{font-size:19px;font-weight:700}
+.footer-reveal-meta{font-size:14px;color:#d7eadd}
+.site-footer .footer-reveal-meta p,.footer-reveal-meta a,.footer-reveal-nav h3{font-size:14px}
+.footer-reveal-intro p{font-size:19px;color:#eef7f1;font-weight:600}
+.footer-reveal-nav a,.footer-reveal-nav button{font-size:17px;color:#eef7f1}
+@media(max-width:760px){
+ .reference-hero .hero-form-layout h1{font-size:32px;line-height:1.15}
+ .hero-form-layout .hero-question{font-size:18px}
+ .hero-qualification .two{grid-template-columns:1fr;gap:0}
+ .hero-qualification .property-grid{gap:10px}
+ .hero-qualification .property-option{height:88px;padding:14px}
+ .recognition-process-heading .eyebrow{font-size:13px}
+ .recognition-step-label{font-size:13px;min-height:40px;padding-left:20px}
+ .recognition-step-description,.recognition-step-note{font-size:16px;line-height:1.5}
+ .recognition-window-caption{font-size:13px;padding:10px 8px}
+ .recognition-window-count{font-size:13px}
+ .recognition-step-title{font-size:21px}
+ .mobile-sticky-cta .button{font-size:17px}
+ .footer-signature{bottom:150px}
+ .hero-location{border-radius:4px}
+}
+@media(max-width:350px){
+ .reference-hero .hero-form-layout h1{font-size:29px}
+ .hero-form-layout .hero-location{font-size:14px}
+ .recognition-step-title{font-size:19px}
+ .recognition-step-label{padding-left:0;padding-top:25px}
+ .mobile-sticky-cta .button{font-size:15px;gap:10px}
+}
