@@ -25,6 +25,8 @@ if (typeof document !== 'undefined') {
     const simulation = document.getElementById('sale-simulation-form');
     const invitation = document.getElementById('sale-invitation');
     const leadFlow = document.getElementById('lead-flow');
+    const leadForm = document.getElementById('lead-form');
+    const reopenButton = leadFlow.querySelector('[data-open-sale-simulator]');
     const slider = document.getElementById('sale-price-slider');
     const error = document.getElementById('sale-error');
     const fields = Array.from(simulation.querySelectorAll('[name]'));
@@ -34,6 +36,7 @@ if (typeof document !== 'undefined') {
     const percent = new Intl.NumberFormat('pt-PT', { maximumFractionDigits: 2 });
     const format = cents => money.format(cents / 100);
     let announcementTimer;
+    let invitationOffered = false;
 
     function update() {
       clearTimeout(announcementTimer);
@@ -74,36 +77,66 @@ if (typeof document !== 'undefined') {
 
     function startLead() {
       if (dialog.open) dialog.close();
-      invitation.hidden = true;
-      leadFlow.hidden = false;
+      if (invitation.open) invitation.close();
       const target = leadFlow.querySelector('#lead-form:not([hidden]) fieldset:not([hidden]) input:not([disabled]), .form-result:not([hidden])');
       target?.focus({ preventScroll: true });
       document.getElementById('pedido').scrollIntoView({ block: 'start', behavior: 'instant' });
     }
 
+    function syncScrollLock() {
+      document.body.classList.toggle('sale-dialog-open', dialog.open || invitation.open);
+    }
+
+    function offerSimulation() {
+      if (invitationOffered) return;
+      invitationOffered = true;
+      reopenButton.hidden = false;
+      invitation.showModal();
+      syncScrollLock();
+      document.getElementById('sale-invitation-close').focus({ preventScroll: true });
+    }
+
+    // Show the choice once, only after the visitor starts the form or uses a CTA.
+    leadForm.addEventListener('change', event => {
+      if (event.target.name === 'tipoImovel') offerSimulation();
+    });
+    leadForm.addEventListener('submit', event => {
+      if (invitationOffered || !leadForm.querySelector('[name="tipoImovel"]:checked')) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      offerSimulation();
+    }, true);
+    document.querySelectorAll('a[href="#pedido"]').forEach(link => {
+      link.addEventListener('click', event => {
+        if (invitationOffered || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        offerSimulation();
+      });
+    });
+
     // The optional simulation never changes or submits the seller's answers.
     document.querySelectorAll('[data-open-sale-simulator]').forEach(button => {
-      button.hidden = false;
       button.addEventListener('click', () => {
+        if (invitation.open) invitation.close();
         dialog.showModal();
-        document.body.classList.add('sale-dialog-open');
+        syncScrollLock();
         dialog.scrollTop = 0;
         document.getElementById('sale-simulator-close').focus({ preventScroll: true });
         update();
       });
     });
     document.querySelectorAll('[data-start-lead]').forEach(button => button.addEventListener('click', startLead));
+    document.getElementById('sale-invitation-close').addEventListener('click', () => invitation.close());
+    invitation.addEventListener('close', syncScrollLock);
     document.getElementById('sale-simulator-close').addEventListener('click', () => dialog.close());
     dialog.addEventListener('close', () => {
-      document.body.classList.remove('sale-dialog-open');
+      syncScrollLock();
       clearTimeout(announcementTimer);
     });
     simulation.addEventListener('submit', event => event.preventDefault());
     fields.forEach(field => field.addEventListener('input', update));
     slider.addEventListener('input', () => { priceInput.value = slider.value; update(); });
     document.getElementById('sale-reset').addEventListener('click', () => { simulation.reset(); update(); });
-    invitation.hidden = false;
-    leadFlow.hidden = true;
     update();
   }
 }

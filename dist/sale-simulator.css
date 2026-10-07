@@ -1,11 +1,13 @@
-.sale-invitation{padding-block:6px;color:#193e2d}
+#sale-invitation{width:min(540px,calc(100% - 32px));max-width:calc(100% - 16px);max-height:calc(100dvh - 32px);padding:32px;background:#f7faf8;border:1px solid #9abaac;border-radius:8px;color:#193e2d;overscroll-behavior:contain}
+#sale-invitation::backdrop{background:#071b15cc;backdrop-filter:blur(4px)}
+#sale-invitation>.sale-close{position:absolute;right:14px;top:14px}
 .sale-invitation>svg{width:34px;height:34px;color:#25754f;margin-bottom:16px}
 .sale-kicker{font-size:14px;font-weight:800;line-height:1.5;color:#327354;margin:0 0 12px}
-.hero-qualification .sale-invitation h2{font-size:30px;font-weight:800;line-height:1.15;color:#193e2d;margin:0 0 18px}
-.hero-qualification .sale-invitation>p:not(.sale-kicker){font-size:17px;line-height:1.55;color:#435b4c;margin:0 0 16px}
+.sale-invitation h2{font-size:30px;font-weight:800;line-height:1.15;color:#193e2d;margin:0 0 18px}
+.sale-invitation>p:not(.sale-kicker){font-size:17px;line-height:1.55;color:#435b4c;margin:0 0 16px}
 .sale-invitation-actions{display:grid;gap:12px;margin-top:24px}
-.hero-qualification .sale-invitation-actions .button,.sale-dialog-footer .button{min-height:54px;font-size:17px;font-weight:700;gap:12px;border-radius:6px;background:#194b3d;color:#fff;padding:14px 18px}
-.hero-qualification .sale-invitation-actions .sale-skip{background:transparent;color:#194b3d;border:1px solid #8faa98}
+.sale-invitation-actions .button,.sale-dialog-footer .button{min-height:54px;font-size:17px;font-weight:700;gap:12px;border-radius:6px;background:#194b3d;color:#fff;padding:14px 18px}
+.sale-invitation-actions .sale-skip{background:transparent;color:#194b3d;border:1px solid #8faa98}
 .sale-invitation-actions .button:hover,.sale-dialog-footer .button:hover{background:#24664e;color:#fff}
 .sale-reopen,.sale-expanded-link{display:flex;align-items:center;gap:10px;background:none;font-size:16px;font-weight:700;line-height:1.5;min-height:44px;text-align:left;padding:0;color:#194b3d}
 .sale-reopen{margin-bottom:18px;border-bottom:1px solid #d8e3db;width:100%;padding-bottom:12px}
@@ -90,4 +92,4 @@ body.sale-dialog-open{overflow:hidden}
  .sale-simulator-grid{grid-template-columns:1fr;gap:24px}.sale-breakdown{padding:24px 0 0;border-left:0;border-top:1px solid #d4e0d8}.sale-dialog-footer{flex-direction:column;align-items:stretch;gap:16px}.sale-dialog-footer .button{width:100%;font-size:16px}#sale-net-value{font-size:36px}.sale-breakdown dd{font-size:17px}.sale-settings-pair{gap:12px}
  .sale-mobile-estimate{display:grid;gap:4px;margin-top:20px;color:#673536;font-size:16px;line-height:1.4}.sale-mobile-estimate strong{font-size:32px;line-height:1.2;color:#a32e37;font-weight:800;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
 }
-@media(max-width:360px){#sale-simulator{padding-inline:14px}#sale-simulator h2{font-size:24px}.sale-breakdown dl>div{grid-template-columns:minmax(0,1fr);gap:4px}.sale-breakdown dd{white-space:normal;overflow-wrap:anywhere}.hero-qualification .sale-invitation h2{font-size:28px}.hero-qualification .sale-invitation-actions .button{font-size:16px;padding-inline:10px}}
+@media(max-width:360px){#sale-simulator{padding-inline:14px}#sale-simulator h2{font-size:24px}.sale-breakdown dl>div{grid-template-columns:minmax(0,1fr);gap:4px}.sale-breakdown dd{white-space:normal;overflow-wrap:anywhere}#sale-invitation{padding:24px 18px}.sale-invitation h2{font-size:28px}.sale-invitation-actions .button{font-size:16px;padding-inline:10px}}

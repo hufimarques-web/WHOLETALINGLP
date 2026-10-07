@@ -7,7 +7,7 @@
 <link rel="apple-touch-icon" href="/logo-ah.png?v=1">
 <meta name="description" content="O valor que pede pode estar a adiar os seus planos. Explore uma proposta pelo seu imóvel no estado atual, em Aveiro e na região Centro.">
 <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="business-theme.css?v=20261006-mobile"><link rel="stylesheet" href="visual-theme.css?v=9"><link rel="stylesheet" href="recognition-theme.css?v=5"><link rel="stylesheet" href="hero-form.css?v=8"><link rel="stylesheet" href="testimonials.css?v=2"><link rel="stylesheet" href="footer-theme.css?v=6"><link rel="stylesheet" href="process-theme.css?v=1"><link rel="stylesheet" href="price-theme.css?v=3"><link rel="stylesheet" href="readability.css?v=3"><script src="lucide.min.js" defer></script><script src="app.js?v=20261007-photos" defer></script><script src="commission.js?v=1" defer></script>
-<link rel="stylesheet" href="sale-simulator.css?v=1"><script src="sale-simulator.js?v=1" defer></script>
+<link rel="stylesheet" href="sale-simulator.css?v=2"><script src="sale-simulator.js?v=2" defer></script>
 </head>
 <body>
 <a class="skip" href="#conteudo">Saltar para o conteúdo</a>
@@ -33,13 +33,6 @@
 <div class="hero-form-column">
 <section class="qualification hero-qualification" id="pedido" aria-label="Apresentar imóvel"><div class="form-layout">
 <div class="form-shell">
-<div id="sale-invitation" class="sale-invitation" hidden>
-  <i data-lucide="calculator" aria-hidden="true"></i><p class="sale-kicker">ANTES DO FORMULÁRIO · OPCIONAL</p>
-  <h2>Quanto lhe pode ficar<br>no bolso?</h2>
-  <p>Quer simular os custos de uma venda tradicional antes de preencher?</p>
-  <p>Veja o efeito da negociação, da comissão e das despesas de esperar. Os valores são exemplos que pode mudar.</p>
-  <div class="sale-invitation-actions"><button type="button" class="button" data-open-sale-simulator><i data-lucide="calculator" aria-hidden="true"></i>Quero fazer as contas</button><button type="button" class="button sale-skip" data-start-lead>Preencher sem simular<i data-lucide="arrow-right" aria-hidden="true"></i></button></div>
-</div>
 <div id="lead-flow">
 <button type="button" class="sale-reopen" data-open-sale-simulator hidden><i data-lucide="calculator" aria-hidden="true"></i>Simular custos de venda</button>
 <div class="step-meta"><span id="step-name">O imóvel</span><span id="step-count">01 / 05</span></div><div class="progress" role="progressbar" aria-label="Progresso do pedido" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><span id="progress-fill"></span></div>
@@ -255,6 +248,14 @@
   </div>
 </footer>
 <dialog id="privacy-dialog" aria-labelledby="privacy-title"><button class="icon-button" id="privacy-close" aria-label="Fechar privacidade" title="Fechar"><i data-lucide="x" aria-hidden="true"></i></button><p class="eyebrow">PRIVACIDADE</p><h2 id="privacy-title">O que acontece<br>aos seus dados?</h2><p>Ao carregar em enviar, o seu nome, telemóvel e respostas sobre o imóvel são guardados no CRM da equipa Wholetailing, de Hugo e André, para analisar o pedido e entrar em contacto consigo.</p><p>Antes de enviar, as respostas ficam apenas nesta página. Não usamos ferramentas de publicidade nem guardamos as respostas no seu navegador. Os serviços de alojamento e de base de dados processam os dados necessários ao funcionamento do formulário.</p><p>A confirmação do telemóvel serve para evitar erros ao escrever. Não é uma verificação por SMS. O pedido não o obriga a vender nem garante uma proposta.</p></dialog>
+<dialog id="sale-invitation" class="sale-invitation" aria-labelledby="sale-invitation-title" aria-describedby="sale-invitation-description">
+  <button type="button" class="sale-close" id="sale-invitation-close" aria-label="Fechar convite" title="Fechar convite"><i data-lucide="x" aria-hidden="true"></i></button>
+  <i data-lucide="calculator" aria-hidden="true"></i><p class="sale-kicker">ANTES DE PREENCHER · OPCIONAL</p>
+  <h2 id="sale-invitation-title">Quer fazer as contas primeiro?</h2>
+  <p id="sale-invitation-description">Veja quanto lhe pode sobrar numa venda tradicional, depois da negociação, da comissão e dos outros custos.</p>
+  <p>Os valores são exemplos que pode mudar. Também pode avançar sem simular.</p>
+  <div class="sale-invitation-actions"><button type="button" class="button" data-open-sale-simulator><i data-lucide="calculator" aria-hidden="true"></i>Quero fazer as contas</button><button type="button" class="button sale-skip" data-start-lead>Preencher sem simular<i data-lucide="arrow-right" aria-hidden="true"></i></button></div>
+</dialog>
 <dialog id="sale-simulator" aria-labelledby="sale-simulator-title" aria-describedby="sale-simulator-intro">
   <div class="sale-dialog-header"><div><p class="sale-kicker">SIMULAÇÃO OPCIONAL</p><h2 id="sale-simulator-title">Dinheiro no bolso.</h2></div><button type="button" class="sale-close" id="sale-simulator-close" aria-label="Fechar simulação" title="Fechar simulação"><i data-lucide="x" aria-hidden="true"></i></button></div>
   <p id="sale-simulator-intro">O preço do anúncio não é o que sobra no fim. Faça as contas com os seus valores.</p>
