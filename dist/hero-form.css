@@ -25,7 +25,7 @@ a.hero-social-proof:hover .hero-proof-copy>span{text-decoration:underline;text-u
 @media(prefers-reduced-motion:reduce){.hero-proof-copy svg{transition:none}}
 .hero-activity{margin-top:18px;padding:18px 20px;background:#edf8f1;border-left:3px solid #68d992;border-radius:4px;color:#193c2a}
 .hero-activity .hero-activity-label{display:flex;align-items:center;gap:10px;margin:0 0 8px;font-size:15px;line-height:1.4;font-weight:700;text-transform:uppercase;color:#21623e}
-.hero-activity-dot{width:10px;height:10px;flex:0 0 10px;border-radius:50%;background:#258c50;animation:activity-pulse 1.6s ease-in-out 3}
+.hero-activity-dot{width:10px;height:10px;flex:0 0 10px;border-radius:50%;background:#258c50;animation:activity-pulse 1.6s ease-in-out infinite}
 .hero-activity .hero-activity-detail{margin:0;font-size:18px;line-height:1.5;font-weight:600;color:#193c2a}
 .hero-activity-detail strong{font-weight:700}
 @keyframes activity-pulse{0%,100%{box-shadow:0 0 0 0 #258c5033}65%{box-shadow:0 0 0 6px #258c5000}}
