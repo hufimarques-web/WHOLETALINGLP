@@ -220,7 +220,7 @@ confirmForm.addEventListener('submit', async event => {
   sendButton.querySelector('span').textContent = 'A enviar…';
   sendStatus.textContent = '';
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15000);
+  const timeout = setTimeout(() => controller.abort(), 35000);
   try {
     const response = await fetch(endpoint, {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
@@ -244,7 +244,7 @@ confirmForm.addEventListener('submit', async event => {
     document.getElementById('summary').replaceChildren();
     document.getElementById('phone-review').textContent = '';
   } catch (error) {
-    sendStatus.textContent = error.name === 'AbortError' || error instanceof TypeError
+    sendStatus.textContent = error.name === 'AbortError' || error instanceof TypeError || error instanceof SyntaxError
       ? 'A ligação foi interrompida. Não conseguimos confirmar o envio. Tente novamente: o mesmo pedido não será guardado duas vezes.'
       : error.message;
   } finally {
