@@ -1,5 +1,5 @@
 'use strict';
-// No storage or analytics. Sending stays unavailable until a same-origin endpoint is configured.
+// Answers stay in memory until the visitor explicitly submits them.
 if (window.lucide) window.lucide.createIcons();
 const form = document.getElementById('lead-form');
 const steps = [...form.querySelectorAll('fieldset')];
@@ -22,6 +22,12 @@ const sendStatus = document.getElementById('send-status');
 const sendButton = document.getElementById('send');
 let step = 0;
 let sending = false;
+let sent = false;
+let requestId = crypto.randomUUID();
+let startedAt = Date.now();
+let pendingPayload = null;
+const contactConsent = document.getElementById('contact-consent');
+const success = document.getElementById('send-success');
 
 function normalizePhone(value) {
   let phone = value.replace(/[\s().-]/g, '').replace(/^00/, '+');
@@ -106,6 +112,7 @@ function validateCurrent() {
   return true;
 }
 function showSummary() {
+  pendingPayload = null;
   const data = values();
   const summary = document.getElementById('summary');
   summary.replaceChildren();
@@ -116,7 +123,7 @@ function showSummary() {
     ...(data.licencaHabitacao ? { 'Licença de habitação': data.licencaHabitacao === 'sim' ? 'Sim' : 'Não' } : {}),
     'Numa imobiliária': data.numaImobiliaria === 'sim' ? 'Sim' : 'Não',
     'Tempo à venda': data.tempoVenda,
-    'Propostas recebidas': data.propostasRecebidas === 'sim' ? `Sim${data.melhorProposta ? ` · ${data.melhorProposta} €` : ''}` : 'Não',
+    'Propostas recebidas': data.propostasRecebidas === 'sim' ? `Sim${data.melhorProposta ? ` · ${data.melhorProposta} €` : ''}` : data.propostasRecebidas === 'na' ? 'Ainda não anunciou' : 'Não',
     'Preço pedido': data.precoPedido ? `${data.precoPedido} €` : 'Não indicado',
     'Valor mínimo': new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(Number(data.valorMinimoAbsoluto)),
     'Aceita negociar': data.flexibilidade,
@@ -139,6 +146,8 @@ function showSummary() {
   confirmForm.hidden = false;
   sendButton.hidden = false;
   confirmPhone.disabled = false;
+  contactConsent.checked = false;
+  contactConsent.disabled = false;
   document.getElementById('phone-review').textContent = data.telefone;
   confirmPhone.value = '';
   confirmPhone.removeAttribute('aria-invalid');
@@ -178,6 +187,7 @@ document.getElementById('edit-phone').addEventListener('click', () => {
 confirmForm.addEventListener('submit', async event => {
   event.preventDefault();
   if (sending) return;
+  if (sent) return;
   confirmPhone.removeAttribute('aria-invalid');
   const data = values();
   if (!validPhone(confirmPhone.value) || normalizePhone(confirmPhone.value) !== normalizePhone(data.telefone)) {
@@ -187,12 +197,25 @@ confirmForm.addEventListener('submit', async event => {
     return;
   }
   const endpoint = confirmForm.dataset.endpoint;
-  if (!endpoint || !endpoint.startsWith('/') || endpoint.startsWith('//')) {
-    sendStatus.textContent = 'Número confirmado. O envio ainda não está ligado. Nenhuma resposta foi enviada.';
+  if (endpoint !== 'https://crm-wholetaling.vercel.app/api/landing-leads' || confirmForm.dataset.enabled !== 'true') {
+    sendStatus.textContent = 'O envio está temporariamente indisponível. Nenhuma resposta foi enviada.';
     return;
   }
+  if (!contactConsent.checked) {
+    sendStatus.textContent = 'Confirme que pretende ser contactado sobre este imóvel.';
+    contactConsent.focus();
+    return;
+  }
+  pendingPayload ??= {
+    ...data, telefone: normalizePhone(data.telefone), telefoneConfirmacao: confirmPhone.value,
+    requestId, startedAt, website: document.getElementById('website').value,
+    contactConsent: true, privacyVersion: '2026-10-07-v1'
+  };
   sending = true;
   sendButton.disabled = true;
+  confirmPhone.disabled = true;
+  contactConsent.disabled = true;
+  confirmForm.setAttribute('aria-busy', 'true');
   result.querySelectorAll('.result-actions button, #edit-phone').forEach(button => { button.disabled = true; });
   sendButton.querySelector('span').textContent = 'A enviar…';
   sendStatus.textContent = '';
@@ -201,19 +224,36 @@ confirmForm.addEventListener('submit', async event => {
   try {
     const response = await fetch(endpoint, {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
-      body: JSON.stringify({ ...data, telefone: normalizePhone(data.telefone), telefoneConfirmado: true })
+      body: JSON.stringify(pendingPayload), credentials: 'omit', cache: 'no-store', redirect: 'error'
     });
     const receipt = await response.json();
-    if (!response.ok || receipt.accepted !== true) throw new Error('Not accepted');
-    sendStatus.textContent = 'Respostas enviadas. Obrigado! Vamos analisar o seu imóvel.';
-    sendButton.hidden = true;
-    confirmPhone.disabled = true;
-  } catch {
-    sendStatus.textContent = 'Não foi possível confirmar o envio. As respostas continuam nesta página. Não feche a janela e tente mais tarde.';
+    if (!response.ok || receipt.accepted !== true || !/^lp-[a-f0-9]{64}$/.test(receipt.reference || '')) {
+      if (response.status === 429) throw new Error('Recebemos muitos pedidos. Aguarde algum tempo e tente novamente.');
+      if (response.status === 400) throw new Error('Verifique as respostas e confirme novamente o contacto.');
+      throw new Error('Não foi possível confirmar o envio. As respostas continuam nesta página. Tente novamente sem a fechar.');
+    }
+    sent = true;
+    result.hidden = true;
+    success.hidden = false;
+    document.getElementById('step-name').textContent = 'Pedido recebido';
+    success.focus({ preventScroll: true });
+    success.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    form.reset();
+    confirmForm.reset();
+    pendingPayload = null;
+    document.getElementById('summary').replaceChildren();
+    document.getElementById('phone-review').textContent = '';
+  } catch (error) {
+    sendStatus.textContent = error.name === 'AbortError' || error instanceof TypeError
+      ? 'A ligação foi interrompida. Não conseguimos confirmar o envio. Tente novamente: o mesmo pedido não será guardado duas vezes.'
+      : error.message;
   } finally {
     clearTimeout(timeout);
     sending = false;
     sendButton.disabled = false;
+    confirmPhone.disabled = false;
+    contactConsent.disabled = false;
+    confirmForm.removeAttribute('aria-busy');
     sendButton.querySelector('span').textContent = 'Enviar respostas';
     result.querySelectorAll('.result-actions button, #edit-phone').forEach(button => { button.disabled = false; });
   }
@@ -222,7 +262,12 @@ document.getElementById('propostas').addEventListener('change', syncOffer);
 back.addEventListener('click', () => showStep(Math.max(0, step - 1)));
 document.getElementById('reconsider').addEventListener('click', () => showStep(priceStep));
 document.getElementById('edit').addEventListener('click', () => showStep(0));
-document.getElementById('restart').addEventListener('click', () => {
+function restartForm() {
+  sent = false;
+  pendingPayload = null;
+  requestId = crypto.randomUUID();
+  startedAt = Date.now();
+  success.hidden = true;
   form.reset();
   confirmForm.reset();
   sendButton.hidden = false;
@@ -231,9 +276,12 @@ document.getElementById('restart').addEventListener('click', () => {
   form.querySelectorAll('[aria-invalid]').forEach(el => { el.removeAttribute('aria-invalid'); el.removeAttribute('aria-describedby'); });
   document.getElementById('summary').replaceChildren();
   showStep(0);
-});
+}
+document.getElementById('restart').addEventListener('click', restartForm);
+document.getElementById('new-request').addEventListener('click', restartForm);
 const privacy = document.getElementById('privacy-dialog');
 document.getElementById('privacy-open').addEventListener('click', () => privacy.showModal());
+document.getElementById('form-privacy-open').addEventListener('click', () => privacy.showModal());
 document.getElementById('privacy-close').addEventListener('click', () => privacy.close());
 privacy.addEventListener('click', event => {
   if (event.target !== privacy) return;

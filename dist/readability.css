@@ -32,6 +32,10 @@ body{font-weight:500}
 #confirm-form #send{width:100%;margin-top:12px}
 #send-status:not(:empty){padding:14px;border-left:3px solid #aa4a2a;background:#fff2e9;color:#68321f;font-size:16px}
 .button:disabled{opacity:.6;cursor:wait;transform:none}
+.form-trap{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.hero-qualification .contact-consent{display:grid;grid-template-columns:24px minmax(0,1fr);gap:12px;align-items:start;margin-top:20px;cursor:pointer}
+.hero-qualification .contact-consent input{width:22px;height:22px;min-height:22px;margin:2px 0;accent-color:#19774d}
+.hero-qualification label.contact-consent>span{font-size:16px;color:#244533;line-height:1.5;font-weight:600}
 .eyebrow,.index,#preco .factor-num{font-size:13px!important}
 #situacoes h2,#situacoes h2 em,.recognition-step-title{font-weight:700}
 .recognition-step-title{color:#e1eee5}
