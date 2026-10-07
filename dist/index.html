@@ -176,37 +176,6 @@
 </section>
 
 <section class="price-section section-space" id="preco"><div class="wrap price-layout"><div class="section-heading"><p class="eyebrow"><span class="index">01</span> PEDIR NÃO É VENDER</p><h2>O vizinho pede esse valor.<br><em>Mas já vendeu?</em></h2><p class="section-lead">O preço do anúncio é o que o dono quer receber.<br>O que lhe fica no bolso é o preço da venda, menos os custos.</p></div>
-<div class="net-comparison" id="commission-calculator" aria-labelledby="net-title">
-  <div class="net-costs">
-    <h3 id="net-title">O preço anunciado não vai todo para o seu bolso.</h3>
-    <p>Um “preço de sonho” no Idealista não é uma venda. Se o anúncio ficar 12 meses online, continuam as despesas, as visitas e as negociações.</p>
-    <div class="commission-fields">
-      <label for="commission-price">Por quanto pensa vender?</label>
-      <div class="commission-input"><input id="commission-price" type="number" inputmode="decimal" min="0" max="100000000" step="0.01" value="200000" required aria-describedby="commission-error"><span aria-hidden="true">€</span></div>
-      <div class="commission-rate-row"><label for="commission-rate">Comissão da imobiliária</label><div class="commission-input commission-percent"><input id="commission-rate" type="number" inputmode="decimal" min="0" max="100" step="0.01" value="5" required aria-describedby="commission-error"><span aria-hidden="true">%</span></div></div>
-      <input id="commission-slider" type="range" min="0" max="10" step="0.1" value="5" aria-label="Ajustar percentagem de comissão">
-      <label for="commission-vat">IVA sobre a comissão</label>
-      <select id="commission-vat"><option value="23">23% · Continente</option><option value="22">22% · Madeira</option><option value="16">16% · Açores</option><option value="0">Sem IVA adicional</option></select>
-      <p id="commission-error" class="commission-error" aria-live="polite" hidden></p>
-      <p class="net-example-note">5% é apenas um exemplo. Use a comissão do seu contrato. Se já incluir IVA, escolha “Sem IVA adicional”.</p>
-    </div>
-    <noscript><p>Ative o JavaScript para calcular os seus valores.</p></noscript>
-  </div>
-  <div class="commission-result" aria-label="Resultado da simulação">
-    <span class="commission-result-label"><i data-lucide="calculator" aria-hidden="true"></i> QUANTO SAI DO VALOR DA VENDA</span>
-    <output id="commission-total" class="commission-total">12.300 €</output>
-    <p>em comissão e IVA, com estes valores.</p>
-    <dl class="net-example">
-      <div><dt>Comissão sem IVA</dt><dd id="commission-base">10.000 €</dd></div>
-      <div><dt>IVA sobre a comissão</dt><dd id="commission-tax">2.300 €</dd></div>
-      <div class="net-subtotal"><dt>Fica com <span>antes de outros custos</span></dt><dd id="commission-remaining">187.700 €</dd></div>
-    </dl>
-    <p class="net-example-note">Simulação, não uma proposta. Não inclui IMI, manutenção, impostos da venda, crédito por pagar ou outros custos do seu caso.</p>
-    <a class="text-link" href="#pedido">Quero comparar com uma proposta <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <button type="button" class="sale-expanded-link" data-open-sale-simulator hidden><i data-lucide="calculator" aria-hidden="true"></i>Incluir negociação, espera e obras</button>
-    <span id="commission-announcement" class="sr-only" role="status" aria-atomic="true"></span>
-  </div>
-</div>
 <div class="price-motion-tools"><button type="button" class="price-motion-toggle" aria-label="Pausar animações dos fatores de preço" title="Pausar animações dos fatores de preço" aria-pressed="false" hidden><i data-lucide="pause" aria-hidden="true"></i></button></div>
 <div class="price-factors">
 <article class="price-card price-location">
