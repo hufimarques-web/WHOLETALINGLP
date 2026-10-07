@@ -173,6 +173,137 @@ form.addEventListener('change', event => {
   licence.value = '';
   syncLicence();
 });
+function getHighestFormValue(data) {
+  if (!data) return 0;
+  const candidates = [
+    Number(data.precoPedido),
+    Number(data.valorMinimoAbsoluto),
+    Number(data.melhorProposta)
+  ].filter(v => Number.isFinite(v) && v > 0);
+  return candidates.length > 0 ? Math.max(...candidates) : 0;
+}
+
+function getCookie(name) {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+async function hashSha256(text) {
+  if (!text) return null;
+  try {
+    const buffer = new TextEncoder().encode(String(text).trim().toLowerCase());
+    const hashBuf = await crypto.subtle.digest('SHA-256', buffer);
+    return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  } catch {
+    return null;
+  }
+}
+
+async function trackMetaLead(data, eventId) {
+  const highestValue = getHighestFormValue(data);
+  const currency = 'EUR';
+
+  // 1. Meta Pixel no navegador
+  if (typeof window.fbq === 'function') {
+    try {
+      window.fbq('track', 'Lead', {
+        value: highestValue,
+        currency: currency
+      }, { eventID: eventId });
+    } catch (pixelErr) {
+      console.warn('Meta Pixel error:', pixelErr);
+    }
+  }
+
+  // 2. Meta Conversions API
+  const fbp = getCookie('_fbp');
+  let fbc = getCookie('_fbc');
+  if (!fbc && typeof window !== 'undefined') {
+    const urlParams = new URLSearchParams(window.location.search);
+    const fbclid = urlParams.get('fbclid');
+    if (fbclid) {
+      fbc = 'fb.1.' + Date.now() + '.' + fbclid;
+    }
+  }
+
+  const payload = {
+    eventName: 'Lead',
+    eventId: eventId,
+    value: highestValue,
+    currency: currency,
+    name: data.nomeProprietario || '',
+    phone: data.telefone || '',
+    sourceUrl: typeof window !== 'undefined' ? window.location.href : '',
+    fbp: fbp || undefined,
+    fbc: fbc || undefined
+  };
+
+  let serverSuccess = false;
+  try {
+    const response = await fetch('/api/conversions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (response.ok) {
+      serverSuccess = true;
+    }
+  } catch (apiErr) {
+    console.warn('CAPI serverless request error:', apiErr);
+  }
+
+  // Fallback direto para o Graph API se o endpoint serverless não responder (ex: estático local)
+  if (!serverSuccess) {
+    try {
+      let cleanPhone = String(data.telefone || '').replace(/\D/g, '');
+      if (cleanPhone.startsWith('00')) cleanPhone = cleanPhone.slice(2);
+      if (/^9\d{8}$/.test(cleanPhone)) cleanPhone = '351' + cleanPhone;
+
+      const nameParts = String(data.nomeProprietario || '').trim().split(/\s+/).filter(Boolean);
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || '';
+
+      const [hashedPhone, hashedFirstName, hashedLastName] = await Promise.all([
+        hashSha256(cleanPhone),
+        hashSha256(firstName),
+        hashSha256(lastName)
+      ]);
+
+      const userData = {
+        client_user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : ''
+      };
+      if (hashedPhone) userData.ph = [hashedPhone];
+      if (hashedFirstName) userData.fn = [hashedFirstName];
+      if (hashedLastName) userData.ln = [hashedLastName];
+      if (fbp) userData.fbp = fbp;
+      if (fbc) userData.fbc = fbc;
+
+      await fetch('https://graph.facebook.com/v21.0/979841341182458/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          data: [{
+            event_name: 'Lead',
+            event_time: Math.floor(Date.now() / 1000),
+            event_id: eventId,
+            event_source_url: typeof window !== 'undefined' ? window.location.href : '',
+            action_source: 'website',
+            user_data: userData,
+            custom_data: {
+              value: highestValue,
+              currency: currency
+            }
+          }],
+          access_token: 'EAAT9k03bEqsBSgjVoa82Fet3Yiurus5KtnXVbjnPh6eVD42uNpHjz4uJsZAgZCRYrg4jcPZBZCIXZBPbNrCdrMzKryYhF0c07LSM2qmkIBvJ2OpsgIigbbcBVLFByCi6d8ZALAg87QREmel4XtaTh75xWR60eKdNYeYjvkTdCZAp4jZCk0dGoJiFVJAxneHXYAZDZD'
+        })
+      });
+    } catch (fallbackErr) {
+      console.warn('CAPI direct fallback error:', fallbackErr);
+    }
+  }
+}
+
 document.getElementById('edit-phone').addEventListener('click', () => {
   showStep(contactStep);
   document.getElementById('telefone').focus();
@@ -222,6 +353,10 @@ confirmForm.addEventListener('submit', async event => {
     document.getElementById('step-name').textContent = 'Pedido recebido';
     success.focus({ preventScroll: true });
     success.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+
+    const eventId = receipt.reference || requestId || ('lead_' + Date.now());
+    trackMetaLead(data, eventId);
+
     form.reset();
     confirmForm.reset();
     pendingPayload = null;
