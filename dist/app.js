@@ -17,7 +17,6 @@ const offerField = document.getElementById('offer-field');
 const offerInput = document.getElementById('melhor-proposta');
 const licence = document.getElementById('licenca');
 const confirmForm = document.getElementById('confirm-form');
-const confirmPhone = document.getElementById('confirmar-telefone');
 const sendStatus = document.getElementById('send-status');
 const sendButton = document.getElementById('send');
 let step = 0;
@@ -26,7 +25,6 @@ let sent = false;
 let requestId = crypto.randomUUID();
 let startedAt = Date.now();
 let pendingPayload = null;
-const contactConsent = document.getElementById('contact-consent');
 const success = document.getElementById('send-success');
 
 function normalizePhone(value) {
@@ -145,12 +143,7 @@ function showSummary() {
   result.hidden = false;
   confirmForm.hidden = false;
   sendButton.hidden = false;
-  confirmPhone.disabled = false;
-  contactConsent.checked = false;
-  contactConsent.disabled = false;
   document.getElementById('phone-review').textContent = data.telefone;
-  confirmPhone.value = '';
-  confirmPhone.removeAttribute('aria-invalid');
   sendStatus.textContent = '';
   document.getElementById('step-name').textContent = 'Resumo';
   result.focus({ preventScroll: true });
@@ -188,12 +181,10 @@ confirmForm.addEventListener('submit', async event => {
   event.preventDefault();
   if (sending) return;
   if (sent) return;
-  confirmPhone.removeAttribute('aria-invalid');
   const data = values();
-  if (!validPhone(confirmPhone.value) || normalizePhone(confirmPhone.value) !== normalizePhone(data.telefone)) {
-    sendStatus.textContent = 'Os números não coincidem. Escreva o mesmo número ou escolha “Corrigir o número”.';
-    confirmPhone.setAttribute('aria-invalid', 'true');
-    confirmPhone.focus();
+  if (!validPhone(data.telefone)) {
+    sendStatus.textContent = 'Corrija o número de telemóvel antes de enviar.';
+    document.getElementById('edit-phone').focus();
     return;
   }
   const endpoint = confirmForm.dataset.endpoint;
@@ -201,20 +192,13 @@ confirmForm.addEventListener('submit', async event => {
     sendStatus.textContent = 'O envio está temporariamente indisponível. Nenhuma resposta foi enviada.';
     return;
   }
-  if (!contactConsent.checked) {
-    sendStatus.textContent = 'Confirme que pretende ser contactado sobre este imóvel.';
-    contactConsent.focus();
-    return;
-  }
   pendingPayload ??= {
-    ...data, telefone: normalizePhone(data.telefone), telefoneConfirmacao: confirmPhone.value,
+    ...data, telefone: normalizePhone(data.telefone),
     requestId, startedAt, website: document.getElementById('website').value,
-    contactConsent: true, privacyVersion: '2026-10-07-v1'
+    contactRequested: true, privacyVersion: '2026-10-07-v2'
   };
   sending = true;
   sendButton.disabled = true;
-  confirmPhone.disabled = true;
-  contactConsent.disabled = true;
   confirmForm.setAttribute('aria-busy', 'true');
   result.querySelectorAll('.result-actions button, #edit-phone').forEach(button => { button.disabled = true; });
   sendButton.querySelector('span').textContent = 'A enviar…';
@@ -251,8 +235,6 @@ confirmForm.addEventListener('submit', async event => {
     clearTimeout(timeout);
     sending = false;
     sendButton.disabled = false;
-    confirmPhone.disabled = false;
-    contactConsent.disabled = false;
     confirmForm.removeAttribute('aria-busy');
     sendButton.querySelector('span').textContent = 'Enviar respostas';
     result.querySelectorAll('.result-actions button, #edit-phone').forEach(button => { button.disabled = false; });
@@ -271,7 +253,6 @@ function restartForm() {
   form.reset();
   confirmForm.reset();
   sendButton.hidden = false;
-  confirmPhone.disabled = false;
   situation.innerHTML = originalOptions;
   form.querySelectorAll('[aria-invalid]').forEach(el => { el.removeAttribute('aria-invalid'); el.removeAttribute('aria-describedby'); });
   document.getElementById('summary').replaceChildren();
