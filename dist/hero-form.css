@@ -1,3 +1,4 @@
+.reference-hero .hero-shade{background:linear-gradient(90deg,#081e18eb 0%,#081e18d9 58%,#081e18c2 100%)}
 .reference-hero .hero-form-layout{
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr);
@@ -66,6 +67,7 @@ a.hero-social-proof:hover .hero-proof-copy>span{text-decoration:underline;text-u
   .hero-qualification .two{grid-template-columns:1fr;gap:0}
 }
 @media(max-width:760px){
+  .reference-hero .hero-shade{background:linear-gradient(180deg,#081e18eb 0%,#081e18e0 55%,#081e18d9 100%)}
   .hero-proof-stats{margin-top:20px;padding-top:16px;gap:16px}
   .hero-testimonial{padding-left:16px}
   .hero-testimonial blockquote{font-size:16px}
