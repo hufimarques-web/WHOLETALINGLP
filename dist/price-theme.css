@@ -13,13 +13,40 @@
 .net-example .net-subtotal{border-bottom:0;border-top:1px solid #b2d7c366;padding-top:18px}
 .net-subtotal dd{color:#a9e3c0;font-size:30px}
 #preco .net-comparison .net-example-note{font-size:15px;line-height:1.5;color:#c1d4c9;margin:0}
-.net-offer{border-left:1px solid #b2d7c344;padding-left:48px}
+.net-offer{grid-column:1/-1;border-top:1px solid #b2d7c344;padding-top:28px}
 .net-offer>svg{width:36px;height:36px;color:#a9e3c0;margin-bottom:20px}
 .net-offer ul{list-style:none;padding:0;margin:24px 0}
 .net-offer li{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;font-size:17px;line-height:1.5;color:#eef7f1}
 .net-offer li svg{margin-top:3px;color:#a9e3c0}
 #preco .net-offer .text-link{color:#a9e3c0;border-color:#a9e3c0;font-size:17px;min-height:44px}
 @media(max-width:760px){.net-comparison{grid-template-columns:minmax(0,1fr);gap:28px;margin-top:28px;padding-block:28px}.net-offer{border-left:0;border-top:1px solid #b2d7c344;padding:28px 0 0}#preco .net-comparison h3{font-size:25px}.net-example>div{gap:12px}.net-example dd{font-size:23px}.net-subtotal dd{font-size:27px}}
+.commission-fields{display:grid;gap:12px;margin-top:26px}
+#commission-announcement{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.commission-fields label{font-size:18px;font-weight:700;color:#f3faf5;line-height:1.4}
+.commission-input{display:flex;align-items:center;gap:8px;min-width:0;border:1px solid #b1d1bd;border-radius:6px;background:#f5f9f6;color:#173e2c;padding:0 16px}
+.commission-input input{width:100%;min-width:0;min-height:58px;border:0!important;box-shadow:none!important;background:transparent!important;color:#173e2c!important;font-family:inherit;line-height:1.2;padding:10px 0!important;font-size:28px;font-weight:700}
+.commission-input span{font-size:22px;font-weight:700}
+.commission-input:focus-within{outline:3px solid #a9e3c0;outline-offset:3px}
+.commission-input input:focus{outline:none}
+.commission-rate-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px}
+.commission-percent{width:114px;flex:none;padding-inline:12px}
+.commission-percent input{font-size:22px;min-height:48px}
+#commission-slider{width:100%;height:36px;min-height:36px;padding:0;margin:0 0 14px;accent-color:#a9e3c0;cursor:pointer}
+#commission-vat{width:100%;min-height:52px;background:#f5f9f6;color:#173e2c;border:1px solid #b1d1bd;border-radius:6px;font-family:inherit;font-weight:600;line-height:1.4;font-size:17px;padding:12px}
+#commission-vat:focus-visible,#commission-slider:focus-visible{outline:3px solid #a9e3c0;outline-offset:3px}
+#preco .commission-fields .net-example-note{margin-top:8px}
+#preco .commission-error{color:#ffcead;font-weight:700;margin:0;font-size:16px}
+.commission-result{align-self:stretch;display:flex;flex-direction:column;justify-content:center;padding:32px;background:linear-gradient(145deg,#245e49,#123b2e);border:1px solid #83bb9766;border-radius:8px;box-shadow:0 16px 40px #06180f26}
+.commission-result-label{display:flex;align-items:center;gap:10px;color:#f3d394;font-size:15px;line-height:1.5;font-weight:700}
+.commission-result-label svg{width:22px;height:22px;flex:none}
+.commission-total{display:block;margin:18px 0 8px;color:#f3d394;font-size:52px;line-height:1.15;font-weight:800;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.commission-result .net-example{margin-top:4px}
+.commission-result .net-example>div{grid-template-columns:minmax(0,1fr);gap:6px}
+.commission-result .net-example dd{white-space:normal;overflow-wrap:anywhere}
+#preco .commission-result .text-link{color:#c6f4d7;border-color:#a9e3c0;font-size:17px;line-height:1.5;margin-top:26px;min-height:44px;align-self:flex-start}
+.commission-result .net-subtotal dd{font-size:36px}
+@media(max-width:760px){.commission-result{padding:24px}.commission-total{font-size:44px}.commission-result .net-subtotal dd{font-size:32px}}
+@media(max-width:360px){.commission-result{padding:20px}.commission-total{font-size:38px}.commission-result .net-subtotal dd{font-size:28px}.commission-percent{width:100px}.commission-fields label{font-size:17px}}
 .price-motion-tools{display:flex;justify-content:flex-end;height:40px;margin-top:20px;margin-bottom:16px}
 .price-motion-toggle{display:grid;place-items:center;width:40px;height:40px;border:1px solid #b0d5bf55;border-radius:50%;background:transparent;color:#c1e6cf;transition:background .2s}
 .price-motion-toggle[hidden]{display:none}.price-motion-toggle:hover{background:#ffffff12}.price-motion-toggle svg{width:17px;height:17px}
