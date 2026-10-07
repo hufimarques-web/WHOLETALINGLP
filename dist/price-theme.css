@@ -1,4 +1,25 @@
 #preco .section-heading{margin-bottom:0}
+.net-comparison{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;margin-top:40px;padding-block:32px;border-block:1px solid #b2d7c344;text-align:left}
+.net-comparison>div{min-width:0}
+#preco .net-comparison h3{font-size:28px;line-height:1.2;font-weight:700;color:#fff;margin:0 0 18px}
+#preco .net-comparison h3 em{font:inherit;color:#a9e3c0}
+#preco .net-comparison p{font-size:17px;line-height:1.6;color:#e0eee4;margin:0 0 20px;max-width:none}
+.net-example{margin:24px 0 18px;font-variant-numeric:tabular-nums}
+.net-example>div{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:16px;padding-block:14px;border-bottom:1px solid #b2d7c333}
+.net-example dt{color:#e0eee4;font-size:16px;line-height:1.4}
+.net-example dt span{display:block;color:#c1d4c9}
+.net-example dd{margin:0;font-size:25px;line-height:1.2;font-weight:700;color:#fff;white-space:nowrap}
+.net-example .net-deduction{color:#ffcead}
+.net-example .net-subtotal{border-bottom:0;border-top:1px solid #b2d7c366;padding-top:18px}
+.net-subtotal dd{color:#a9e3c0;font-size:30px}
+#preco .net-comparison .net-example-note{font-size:15px;line-height:1.5;color:#c1d4c9;margin:0}
+.net-offer{border-left:1px solid #b2d7c344;padding-left:48px}
+.net-offer>svg{width:36px;height:36px;color:#a9e3c0;margin-bottom:20px}
+.net-offer ul{list-style:none;padding:0;margin:24px 0}
+.net-offer li{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;font-size:17px;line-height:1.5;color:#eef7f1}
+.net-offer li svg{margin-top:3px;color:#a9e3c0}
+#preco .net-offer .text-link{color:#a9e3c0;border-color:#a9e3c0;font-size:17px;min-height:44px}
+@media(max-width:760px){.net-comparison{grid-template-columns:minmax(0,1fr);gap:28px;margin-top:28px;padding-block:28px}.net-offer{border-left:0;border-top:1px solid #b2d7c344;padding:28px 0 0}#preco .net-comparison h3{font-size:25px}.net-example>div{gap:12px}.net-example dd{font-size:23px}.net-subtotal dd{font-size:27px}}
 .price-motion-tools{display:flex;justify-content:flex-end;height:40px;margin-top:20px;margin-bottom:16px}
 .price-motion-toggle{display:grid;place-items:center;width:40px;height:40px;border:1px solid #b0d5bf55;border-radius:50%;background:transparent;color:#c1e6cf;transition:background .2s}
 .price-motion-toggle[hidden]{display:none}.price-motion-toggle:hover{background:#ffffff12}.price-motion-toggle svg{width:17px;height:17px}
